@@ -1,0 +1,12 @@
+This is a global declaration. Printing same stuff as normal declaration.
+declarator: Variable: x
+Equal to: 0
+
+Function id="f"  | Type: Int | Parameters: 
+Statements: 
+Performing an assignment expression: 
+	 With left expression:
+x	 With right expression:
+99
+
+

@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<Program>
+<Function id="x">
+<Scope>
+</Scope>
+</Function>
+
+<Variable id="g" /> 
+
+<Variable id="" /> 
+
+<Function id="zz">
+<Parameter id="a" /> <Parameter id="b" /> <Parameter id="c" /> <Scope>
+<Scope>
+<Scope>
+<Variable id="a" /> 
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+<Variable id="fsdfsdfs" /> 
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+<Variable id="x" /> <Variable id="b" /> <Variable id="d" /> <Variable id="e" /> <Variable id="f" /> 
+
+<Function id="main">
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+<Function id="f">
+<Parameter id="i" /> <Scope>
+<Variable id="x" /> 
+<Scope>
+<Scope>
+<Variable id="y" /> 
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+<Variable id="y" /> 
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+<Function id="ff">
+<Parameter id="i" /> <Scope>
+<Variable id="x" /> 
+<Variable id="y" /> 
+</Scope>
+</Function>
+
+<Function id="f">
+<Parameter id="i" /> <Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+<Function id="k">
+<Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+
+</Program>

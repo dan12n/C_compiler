@@ -1,0 +1,107 @@
+Function id="main"  | Type: Int | Parameters: 
+Statements: 
+declarator: Variable: i
+Equal to: 0declarator: Variable: size
+Equal to: 10declarator: Variable: sum
+Equal to: 0declarator: Variable: pos
+Equal to: 0declarator: Variable: neg
+Equal to: 0
+declarator:  Array identifier: arrValue: 10
+
+Equal to: #Initialising an array with the values: 
+number 0:12
+number 1:Maths Sub: 
+	 Left expression: 0	 Right expr: 1
+
+number 2:8
+number 3:0
+number 4:6
+number 5:85
+number 6:Maths Sub: 
+	 Left expression: 0	 Right expr: 74
+
+number 7:23
+number 8:99
+number 9:Maths Sub: 
+	 Left expression: 0	 Right expr: 30
+
+
+Performing an assignment expression: 
+	 With left expression:
+sum	 With right expression:
+0
+
+Performing an assignment expression: 
+	 With left expression:
+pos	 With right expression:
+0
+
+Performing an assignment expression: 
+	 With left expression:
+neg	 With right expression:
+0
+
+For loop: 
+	 Declaration: Performing an assignment expression: 
+	 With left expression:
+i	 With right expression:
+0
+
+ | Condition: Doing a less comparison: 
+	 Left expr: i
+	 Right expr: size
+ | Increment/Decrement: Performing an assignment expression: 
+	 With left expression:
+i	 With right expression:
+Maths Add: 
+	 Left expression: i	 Right expr: 1
+
+
+ | Statements: Performing an assignment expression: 
+	 With left expression:
+sum	 With right expression:
+Maths Add: 
+	 Left expression: sum	 Right expr: Calling array: arr
+With value: i
+
+
+If statement:
+Comparison: Doing a greater comparison: 
+	 Left expr: Calling array: arr
+With value: i
+	 Right expr: 0
+	 If:
+Performing an assignment expression: 
+	 With left expression:
+pos	 With right expression:
+Maths Add: 
+	 Left expression: pos	 Right expr: Calling array: arr
+With value: i
+
+
+
+
+If statement:
+Comparison: Doing a less comparison: 
+	 Left expr: Calling array: arr
+With value: i
+	 Right expr: 0
+	 If:
+Performing an assignment expression: 
+	 With left expression:
+neg	 With right expression:
+Maths Add: 
+	 Left expression: neg	 Right expr: Calling array: arr
+With value: i
+
+
+
+
+
+Returning 0
+
+Trying to constant fold a variable!
+Trying to constant fold a variable!
+Trying to constant fold a variable!
+Trying to constant fold a variable!
+Trying to constant fold a variable!

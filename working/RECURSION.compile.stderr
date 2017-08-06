@@ -1,0 +1,20 @@
+Function id="factorial"  | Type: Int | Parameters: 
+Parameter Type = Int id="Variable: i"  Statements: 
+If statement:
+Comparison: Doing a less comparison: 
+	 Left expr: i
+	 Right expr: 5
+	 If:
+Returning 1
+
+	 Else:
+Returning Maths Add: 
+	 Left expression: Function call:
+ID: factorialMaths Sub: 
+	 Left expression: i	 Right expr: 1
+ 
+	 Right expr: 1
+
+
+
+

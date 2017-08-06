@@ -1,0 +1,4 @@
+test_deliverable/testcases/test_ATOI_driver.c: In function ‘main’:
+test_deliverable/testcases/test_ATOI_driver.c:2:17: warning: implicit declaration of function ‘f’ [-Wimplicit-function-declaration]
+  return !(57 == f());
+                 ^

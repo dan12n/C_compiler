@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Program>
+<Function id="hello_world">
+<Parameter id="c" /> <Parameter id="d" /> <Scope>
+<Variable id="b" /> 
+</Scope>
+</Function>
+
+<Function id="hello_world">
+<Parameter id="c" /> <Parameter id="d" /> <Scope>
+</Scope>
+</Function>
+
+<Function id="hello_world">
+<Parameter id="c" /> <Parameter id="d" /> <Scope>
+</Scope>
+</Function>
+
+
+</Program>

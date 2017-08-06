@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Program>
+<Function id="two">
+<Scope>
+</Scope>
+</Function>
+
+<Function id="three">
+<Scope>
+</Scope>
+</Function>
+
+<Function id="nested">
+<Scope>
+</Scope>
+</Function>
+
+<Function id="xor_test">
+<Scope>
+</Scope>
+</Function>
+
+<Function id="x">
+<Scope>
+</Scope>
+</Function>
+
+
+</Program>

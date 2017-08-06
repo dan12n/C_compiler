@@ -1,0 +1,12 @@
+Function id="f"  | Type: Int | Parameters: 
+Statements: 
+If statement:
+Comparison: 0	 If:
+Returning 30
+
+	 Else:
+Returning 10
+
+
+Returning 5
+

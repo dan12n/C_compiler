@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<Program>
+<Variable id="x" /> 
+
+<Variable id="y" /> 
+
+<Variable id="z" /> <Variable id="d" /> <Variable id="l" /> <Variable id="m" /> 
+
+<Function id="z">
+<Scope>
+<Scope>
+<Scope>
+<Variable id="t" /> 
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+<Variable id="g" /> 
+
+<Function id="main">
+<Parameter id="p" /> <Parameter id="troll" /> <Scope>
+<Variable id="potato" /> 
+<Variable id="potato" /> 
+</Scope>
+</Function>
+
+<Function id="lol">
+<Scope>
+</Scope>
+</Function>
+
+<Variable id="k" /> 
+
+<Function id="x">
+<Scope>
+<Scope>
+<Scope>
+<Variable id="s" /> 
+<Variable id="b" /> 
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+<Variable id="j" /> 
+
+<Function id="potato">
+<Scope>
+<Scope>
+<Scope>
+<Variable id="sad" /> <Variable id="sada" /> <Variable id="asdda" /> 
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Variable id="p" /> 
+<Variable id="if_true" /> 
+</Scope>
+</Scope>
+<Scope>
+<Scope>
+<Variable id="b" /> 
+<Variable id="if_false" /> 
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+
+</Program>

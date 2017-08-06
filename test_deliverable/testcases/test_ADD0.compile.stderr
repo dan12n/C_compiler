@@ -1,0 +1,6 @@
+Function id="f"  | Type: Int | Parameters: 
+Parameter Type = Int id="Variable: a"  Parameter Type = Int id="Variable: b"  Statements: 
+Returning Maths Add: 
+	 Left expression: a	 Right expr: b
+
+

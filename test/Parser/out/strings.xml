@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<Program>
+<Function id="main">
+<Scope>
+<Variable id="n" /> <Variable id="first" /> <Variable id="second" /> <Variable id="next" /> <Variable id="c" /> 
+<Variable id="hello" /> 
+</Scope>
+</Function>
+
+
+</Program>

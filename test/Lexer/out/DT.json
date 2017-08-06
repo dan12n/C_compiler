@@ -1,0 +1,8 @@
+[ 	{ "Class" : "Keyword", 	 "Text" : "int", 	 "StreamLine" : 7, 	 "SourceFile" : "test/Lexer/in/DT.c", 	 "SourceLine" : 1, 	 "SourceCol" : 1 },
+	{ "Class" : "Identifier", 	 "Text" : "x", 	 "StreamLine" : 7, 	 "SourceFile" : "test/Lexer/in/DT.c", 	 "SourceLine" : 1, 	 "SourceCol" : 5 },
+	{ "Class" : "Operator", 	 "Text" : ";", 	 "StreamLine" : 7, 	 "SourceFile" : "test/Lexer/in/DT.c", 	 "SourceLine" : 1, 	 "SourceCol" : 6 },
+	{ "Class" : "Keyword", 	 "Text" : "int", 	 "StreamLine" : 9, 	 "SourceFile" : "stdio.h", 	 "SourceLine" : 5, 	 "SourceCol" : 1 },
+	{ "Class" : "Identifier", 	 "Text" : "y", 	 "StreamLine" : 9, 	 "SourceFile" : "stdio.h", 	 "SourceLine" : 5, 	 "SourceCol" : 5 },
+	{ "Class" : "Operator", 	 "Text" : ";", 	 "StreamLine" : 9, 	 "SourceFile" : "stdio.h", 	 "SourceLine" : 5, 	 "SourceCol" : 6 },
+	{}
+]

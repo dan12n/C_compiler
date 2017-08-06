@@ -1,0 +1,22 @@
+Function id="main"  | Type: Int | Parameters: 
+Statements: 
+declarator: Variable: sum
+Equal to: 7
+declarator:  Array identifier: xValue: 5
+
+Equal to: #Initialising an array with the values: 
+number 0:0
+number 1:1
+number 2:2
+number 3:3
+number 4:4
+
+Performing an assignment expression: 
+	 With left expression:
+Calling array: x
+With value: 2	 With right expression:
+sum
+
+Returning Calling array: x
+With value: 3
+

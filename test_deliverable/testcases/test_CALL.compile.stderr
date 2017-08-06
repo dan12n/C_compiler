@@ -1,0 +1,11 @@
+This is a global declaration. Printing same stuff as normal declaration.
+declarator: Function variable: gWith parameters: 
+
+Equal to: 0
+
+Function id="f"  | Type: Int | Parameters: 
+Statements: 
+Returning Function call:
+ID: g
+
+

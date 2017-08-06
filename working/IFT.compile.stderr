@@ -1,0 +1,12 @@
+Function id="f"  | Type: Int | Parameters: 
+Statements: 
+If statement:
+Comparison: Doing a greater comparison: 
+	 Left expr: 30
+	 Right expr: 10
+	 If:
+Returning 30
+
+
+Returning 10
+

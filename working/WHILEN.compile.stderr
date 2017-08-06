@@ -1,0 +1,17 @@
+Function id="f"  | Type: Int | Parameters: 
+Statements: 
+declarator: Variable: x
+Equal to: 0
+While Loop: 	 Conditions: Doing a less comparison: 
+	 Left expr: x
+	 Right expr: 5
+ | Statements: Performing an assignment expression: 
+	 With left expression:
+x	 With right expression:
+Maths Add: 
+	 Left expression: x	 Right expr: 1
+
+
+
+Returning x
+

@@ -1,0 +1,11 @@
+Function id="ffff"  | Type: Int | Parameters: 
+Statements: 
+declarator: Variable: x
+Equal to: 0
+Performing an assignment expression: 
+	 With left expression:
+x	 With right expression:
+10
+
+Returning x
+

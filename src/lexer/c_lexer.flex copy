@@ -1,0 +1,110 @@
+%option noyywrap
+
+%{
+	#include <iostream>
+	#include <string>
+	#include <algorithm>
+	#include <sstream>
+
+	int StreamLine = 1; //The line number the token appears on, in terms of the input stream.
+	std::string SourceFile;
+	int SourceLine = 1; //The source line the token came from
+	int SourceCol = 1; //The source column the token started at. If a token starts at the first character on a line, it would have "SourceCol":1
+	bool multi_line_comment = false;
+
+	std::string check_quote(std::string name) {
+	    if ((name[0] == '\"') && (name[name.length()-1] == '\"')) {
+	        name.erase(0,1);
+	        name.erase(name.length()-1, name.length());
+	    }
+
+	    return name;
+	}
+
+	void JSON_conversion(std::string type) {
+		if (multi_line_comment == false) {
+			std::string temp = check_quote(yytext);
+
+			std::cout << "\t{ \"Class\" : \"" 		<< type 
+					  << "\", \t \"Text\" : \"" 	<< temp 
+					  << "\", \t \"StreamLine\" : " << StreamLine
+					  << ", \t \"SourceCol\" : " 	<< SourceCol
+					  << ", \t \"SourceFile\" : \""	<< SourceFile
+					  << ", \t \"SourceLine\" : "   << SourceLine
+					  << " }," 						<< std::endl;
+			SourceCol += temp.size();
+		}
+	}
+
+	std::string get_file(std::string name) {
+		size_t path = name.find_last_of('/', std::string::npos);
+		if (path==std::string::npos) {
+			size_t path = name.find_first_of('\"', std::string::npos);
+		}
+		size_t final = name.find_last_of('\"', std::string::npos);
+		return name.substr(path+1, final-1);
+	}
+	//ToDO: fix the above -- string
+	//Todo: Implement string: read first line as input
+	//Todo: Increment the SourceCol correctly
+%}
+
+/* Token Classes complete break down (these will be grouped later) */
+
+/* Constants */
+DECIMAL							(-?[0-9]+\.?[0-9]*)
+FRACTION						(-?[0-9]+\/[0-9]*)
+NUMBER_constant					{DECIMAL}|{FRACTION}
+HEX								[a-fA-F0-9]+
+HEX_constant					0[xX]HEX	
+/*Useful for variables below*/
+CHAR_STRING						[a-zA-Z][a-zA-Z0-9]*
+/*Differentiate between an actual string and variable */
+STRING_LITERAL					\"[^\n]+\"
+
+CONSTANT 						({NUMBER_constant}|{HEX_constant})
+
+IDENTIFIER						[a-zA-Z_][a-zA-Z0-9_]*
+
+KEYWORDS 						(continue|default|short|goto|if|extern|float|unsigned|void|long|volatile|while|const|char|for|auto|do|sizeof|union|double|int|typedef|else|return|static|enum|case|register|restrict|break|signed|switch|struct)
+
+OPERATORS						(\+)|(\-)|(\*)|(\/)|(\%)|(\+\+)|(\-\-)|(\&)|(\|)|(\^)|(\~)|(\!)|(\&\&)|(\|\|)|(\<\<)|(\>\>)|(\?)|(\<)|(\>)|(\=\=)|(\!\=)|(\>\=)|(\<\=)|(\()|(\))|(\[)|(\])|(\{)|(\})|(\+\=)|(\-\=)|(\*\=)|(\/\=)|(\%\=)|(\&\=)|(\^\=)|(\|\=)|(\<\<\=)|(\>\>\=)|(\=)|(\.\.\.)|(\;)|(\-\>)|(\:)|(\,)|(\.)|(\<\%)|(\%\>)|(\<\:)|(\:\>)
+
+
+
+%%
+\#\ [0-9]+\ \"([^\"\n])+\.c\"					{	SourceFile = get_file(yytext);	}
+((\#[a-zA-Z][a-zA-Z0-9]*)(\ )?(\<|\")([a-zA-Z][a-zA-Z0-9]*)(\.)?([a-zA-Z]*)(\>|\")) { ; }
+\#[^\n]											{ ; }
+"//".*											{ ; }
+"/*".*											{   multi_line_comment = true;		}
+"*/".*											{   multi_line_comment = false;		}
+
+{CONSTANT}										{	JSON_conversion("Constant");	}
+{OPERATORS}										{	JSON_conversion("Operator"); 	}
+{KEYWORDS}										{   JSON_conversion("Keyword");		}
+{IDENTIFIER}									{ 	JSON_conversion("Identifier");	}
+{STRING_LITERAL}								{   JSON_conversion("StringLiteral");}				
+
+[ \s]											{	SourceCol += 1;					}
+[\t]                							{ 	SourceCol += 8; 				}
+[\n]											{	StreamLine++; SourceCol = 1;
+													SourceLine++;					}
+[\v\f]											{ ; }
+.												{ 	JSON_conversion("Error"); 		}
+
+%%
+
+void yyerror (char const *s)
+{
+  fprintf (stderr, "Flex Error: %s\n", s); /* s is the text that wasn't matched */
+  exit(1);
+}
+
+int main()
+{
+	std::cout << "[ ";
+    yylex();
+    printf("\t{}\n]\n");
+    return 0;
+}

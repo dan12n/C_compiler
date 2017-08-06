@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Program>
+<Function id="bool_test">
+<Scope>
+</Scope>
+</Function>
+
+<Function id="main">
+<Parameter id="a" /> <Parameter id="b" /> <Scope>
+</Scope>
+</Function>
+
+<Function id="main">
+<Parameter id="a" /> <Parameter id="b" /> <Scope>
+</Scope>
+</Function>
+
+<Function id="main">
+<Parameter id="a" /> <Parameter id="b" /> <Scope>
+</Scope>
+</Function>
+
+
+</Program>

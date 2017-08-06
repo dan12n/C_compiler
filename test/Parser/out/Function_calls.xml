@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Program>
+<Function id="x">
+<Scope>
+</Scope>
+</Function>
+
+<Variable id="g" /> 
+
+<Variable id="" /> 
+
+<Function id="main">
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Scope>
+<Variable id="x" /> 
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Scope>
+</Function>
+
+<Function id="zz">
+<Parameter id="a" /> <Parameter id="b" /> <Parameter id="c" /> <Scope>
+</Scope>
+</Function>
+
+
+</Program>

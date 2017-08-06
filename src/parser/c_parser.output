@@ -1,0 +1,5383 @@
+Terminals unused in grammar
+
+   Default_KEY
+   Goto_KEY
+   Union_KEY
+   Restrict_KEY
+   PTR_Ref
+
+
+State 14 conflicts: 19 reduce/reduce
+State 271 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: root $end
+
+    1 root: top_declaration
+
+    2 top_declaration: top_declaration declaration
+    3                | top_declaration function_definition
+    4                | top_declaration Semicolon
+    5                | declaration
+    6                | Semicolon
+    7                | function_definition
+
+    8 expression: assign_expressions
+    9           | expression Comma assign_expressions
+
+   10 assign_expressions: constant_expression
+   11                   | unary_expression Equal assign_expressions
+   12                   | unary_expression Add_CURRENT assign_expressions
+   13                   | unary_expression Sub_CURRENT assign_expressions
+   14                   | unary_expression Mul_CURRENT assign_expressions
+   15                   | unary_expression Div_CURRENT assign_expressions
+   16                   | unary_expression Mod_CURRENT assign_expressions
+   17                   | unary_expression And_CURRENT assign_expressions
+   18                   | unary_expression Xor_CURRENT assign_expressions
+   19                   | unary_expression Or_CURRENT assign_expressions
+   20                   | unary_expression LShift_CURRENT assign_expressions
+   21                   | unary_expression RShift_CURRENT assign_expressions
+
+   22 constant_expression: conditional_logical_or
+   23                    | conditional_logical_or Question_BIT expression Colon constant_expression
+
+   24 argument_expression_list: assign_expressions
+   25                         | argument_expression_list Comma assign_expressions
+
+   26 function_definition: all_type_specifiers IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET compound_statement
+   27                    | all_type_specifiers IDENTIFIER Open_BRACKET Close_BRACKET compound_statement
+   28                    | IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET compound_statement
+   29                    | IDENTIFIER Open_BRACKET Close_BRACKET compound_statement
+
+   30 all_type_specifiers: storage_specifiers all_type_specifiers
+   31                    | type_specifier
+   32                    | type_specifier all_type_specifiers
+   33                    | type_qualifier all_type_specifiers
+
+   34 declarator: Open_BRACKET declarator Close_BRACKET
+   35           | IDENTIFIER OSquare_BRACKET constant_expression CSquare_BRACKET
+   36           | IDENTIFIER OSquare_BRACKET CSquare_BRACKET
+   37           | IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET
+   38           | IDENTIFIER Open_BRACKET Close_BRACKET
+   39           | IDENTIFIER
+
+   40 declaration: all_type_specifiers Semicolon
+   41            | all_type_specifiers initialisers_list Semicolon
+
+   42 initialisers_list: initialisers_declarator
+   43                  | initialisers_list Comma initialisers_declarator
+
+   44 initialisers_declarator: declarator
+   45                        | declarator Equal assign_expressions
+
+   46 shift_expression: additive_expression
+   47                 | shift_expression LShift_BIT additive_expression
+   48                 | shift_expression RShift_BIT additive_expression
+
+   49 additive_expression: multiplicative_expression
+   50                    | additive_expression Plus_MATH multiplicative_expression
+   51                    | additive_expression Subtract_MATH multiplicative_expression
+
+   52 multiplicative_expression: cast_expression
+   53                          | multiplicative_expression Multiply_MATH cast_expression
+   54                          | multiplicative_expression Divide_MATH cast_expression
+   55                          | multiplicative_expression Percentage_MATH cast_expression
+
+   56 cast_expression: unary_expression
+   57                | Open_BRACKET type_name Close_BRACKET cast_expression
+
+   58 relational_expression: shift_expression
+   59                      | relational_expression Less_COMP shift_expression
+   60                      | relational_expression Greater_COMP shift_expression
+   61                      | relational_expression LEqual_COMP shift_expression
+   62                      | relational_expression GEqual_COMP shift_expression
+
+   63 equality_expression: relational_expression
+   64                    | equality_expression Equal_COMP relational_expression
+   65                    | equality_expression NEqual_COMP relational_expression
+
+   66 and_expression: equality_expression
+   67               | and_expression And_BIT equality_expression
+
+   68 exclusive_or_expression: and_expression
+   69                        | exclusive_or_expression Xor_BIT and_expression
+
+   70 inclusive_or_expression: exclusive_or_expression
+   71                        | inclusive_or_expression Or_BIT exclusive_or_expression
+
+   72 logical_and_expression: inclusive_or_expression
+   73                       | logical_and_expression AndAnd_BIT inclusive_or_expression
+
+   74 conditional_logical_or: logical_and_expression
+   75                       | conditional_logical_or OrOr_BIT logical_and_expression
+
+   76 primary_expression: NUMBER
+   77                   | IDENTIFIER
+   78                   | Open_BRACKET expression Close_BRACKET
+   79                   | string_literal
+
+   80 postfix_expression: primary_expression
+   81                   | postfix_expression OSquare_BRACKET expression CSquare_BRACKET
+   82                   | primary_expression Open_BRACKET Close_BRACKET
+   83                   | primary_expression Open_BRACKET argument_expression_list Close_BRACKET
+   84                   | primary_expression Dot_Ref IDENTIFIER
+   85                   | primary_expression Increment_MATH
+   86                   | primary_expression Decrement_MATH
+
+   87 unary_expression: postfix_expression
+   88                 | Increment_MATH unary_expression
+   89                 | Decrement_MATH unary_expression
+   90                 | unary_operator cast_expression
+   91                 | Sizeof_KEY unary_expression
+   92                 | Sizeof_KEY Open_BRACKET type_name Close_BRACKET
+
+   93 type_name: specifier_qualifier_list
+   94          | specifier_qualifier_list abstract_declarator
+
+   95 specifier_qualifier_list: type_specifier
+   96                         | type_qualifier specifier_qualifier_list
+   97                         | type_qualifier
+
+   98 abstract_declarator: Open_BRACKET abstract_declarator Close_BRACKET
+   99                    | OSquare_BRACKET CSquare_BRACKET
+  100                    | OSquare_BRACKET constant_expression CSquare_BRACKET
+  101                    | abstract_declarator OSquare_BRACKET CSquare_BRACKET
+  102                    | abstract_declarator OSquare_BRACKET constant_expression CSquare_BRACKET
+  103                    | Open_BRACKET Close_BRACKET
+  104                    | Open_BRACKET parameter_type_list Close_BRACKET
+
+  105 parameter_type_list: parameter_list
+  106                    | parameter_list Comma Ellipses
+
+  107 parameter_list: parameter_list Comma parameter_declaration
+  108               | parameter_declaration
+
+  109 parameter_declaration: all_type_specifiers declarator
+  110                      | all_type_specifiers
+
+  111 statement: expression_statement
+  112          | compound_statement
+  113          | if_else_statement
+  114          | for_while_statement
+  115          | return_statement
+  116          | declaration
+  117          | labeled_statement
+
+  118 labeled_statement: IDENTIFIER Colon statement
+  119                  | Case_KEY constant_expression Colon statement
+
+  120 if_else_statement: If_KEY Open_BRACKET expression Close_BRACKET statement
+  121                  | If_KEY Open_BRACKET expression Close_BRACKET statement Else_KEY statement
+  122                  | Switch_KEY Open_BRACKET expression Close_BRACKET statement
+
+  123 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression Semicolon Close_BRACKET statement
+  124                    | For_KEY Open_BRACKET expression Semicolon expression Semicolon expression Close_BRACKET statement
+  125                    | While_KEY Open_BRACKET expression Close_BRACKET statement
+  126                    | Do_KEY statement While_KEY Open_BRACKET expression Close_BRACKET Semicolon
+
+  127 return_statement: Continue_KEY Semicolon
+  128                 | Break_KEY Semicolon
+  129                 | Return_KEY Semicolon
+  130                 | Return_KEY expression Semicolon
+
+  131 expression_statement: Semicolon
+  132                     | expression Semicolon
+
+  133 compound_statement: OCurly_BRACKET CCurly_BRACKET
+  134                   | OCurly_BRACKET statement_list CCurly_BRACKET
+
+  135 statement_list: statement
+  136               | statement_list statement
+
+  137 storage_specifiers: Typedef_KEY
+  138                   | Extern_KEY
+  139                   | Static_KEY
+  140                   | Auto_KEY
+  141                   | Register_KEY
+
+  142 type_specifier: Void_KEY
+  143               | Char_KEY
+  144               | Short_KEY
+  145               | Int_KEY
+  146               | Long_KEY
+  147               | Float_KEY
+  148               | Double_KEY
+  149               | Signed_KEY
+  150               | Unsigned_KEY
+  151               | Struct_KEY
+  152               | Enum_KEY
+  153               | Typedef_KEY
+  154               | String_KEY
+
+  155 unary_operator: And_BIT
+  156               | Multiply_MATH
+  157               | Plus_MATH
+  158               | Subtract_MATH
+  159               | Tilde_BIT
+  160               | Not_BIT
+
+  161 type_qualifier: Const_KEY
+  162               | Volatile_KEY
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+Continue_KEY (258) 127
+String_KEY (259) 154
+Default_KEY (260)
+Short_KEY (261) 144
+Goto_KEY (262)
+If_KEY (263) 120 121
+Extern_KEY (264) 138
+Float_KEY (265) 147
+Unsigned_KEY (266) 150
+Void_KEY (267) 142
+Long_KEY (268) 146
+Volatile_KEY (269) 162
+While_KEY (270) 125 126
+Const_KEY (271) 161
+Char_KEY (272) 143
+For_KEY (273) 123 124
+Auto_KEY (274) 140
+Do_KEY (275) 126
+Sizeof_KEY (276) 91 92
+Union_KEY (277)
+Double_KEY (278) 148
+Int_KEY (279) 145
+Typedef_KEY (280) 137 153
+Else_KEY (281) 121
+Return_KEY (282) 129 130
+Static_KEY (283) 139
+Enum_KEY (284) 152
+Case_KEY (285) 119
+Register_KEY (286) 141
+Restrict_KEY (287)
+Break_KEY (288) 128
+Signed_KEY (289) 149
+Switch_KEY (290) 122
+Struct_KEY (291) 151
+Plus_MATH (292) 50 157
+Subtract_MATH (293) 51 158
+Multiply_MATH (294) 53 156
+Divide_MATH (295) 54
+Percentage_MATH (296) 55
+Increment_MATH (297) 85 88
+Decrement_MATH (298) 86 89
+And_BIT (299) 67 155
+Or_BIT (300) 71
+Xor_BIT (301) 69
+Tilde_BIT (302) 159
+Not_BIT (303) 160
+AndAnd_BIT (304) 73
+OrOr_BIT (305) 75
+LShift_BIT (306) 47
+RShift_BIT (307) 48
+Question_BIT (308) 23
+Less_COMP (309) 59
+Greater_COMP (310) 60
+Equal_COMP (311) 64
+NEqual_COMP (312) 65
+GEqual_COMP (313) 62
+LEqual_COMP (314) 61
+Open_BRACKET (315) 26 27 28 29 34 37 38 57 78 82 83 92 98 103 104 120
+    121 122 123 124 125 126
+Close_BRACKET (316) 26 27 28 29 34 37 38 57 78 82 83 92 98 103 104
+    120 121 122 123 124 125 126
+OSquare_BRACKET (317) 35 36 81 99 100 101 102
+CSquare_BRACKET (318) 35 36 81 99 100 101 102
+OCurly_BRACKET (319) 133 134
+CCurly_BRACKET (320) 133 134
+Add_CURRENT (321) 12
+Sub_CURRENT (322) 13
+Mul_CURRENT (323) 14
+Div_CURRENT (324) 15
+Mod_CURRENT (325) 16
+And_CURRENT (326) 17
+Xor_CURRENT (327) 18
+Or_CURRENT (328) 19
+LShift_CURRENT (329) 20
+RShift_CURRENT (330) 21
+Equal (331) 11 45
+Ellipses (332) 106
+Semicolon (333) 4 6 40 41 123 124 126 127 128 129 130 131 132
+PTR_Ref (334)
+Colon (335) 23 118 119
+Comma (336) 9 25 43 106 107
+Dot_Ref (337) 84
+IDENTIFIER (338) 26 27 28 29 35 36 37 38 39 77 84 118
+string_literal (339) 79
+NUMBER (340) 76
+
+
+Nonterminals, with rules where they appear
+
+$accept (86)
+    on left: 0
+root (87)
+    on left: 1, on right: 0
+top_declaration (88)
+    on left: 2 3 4 5 6 7, on right: 1 2 3 4
+expression (89)
+    on left: 8 9, on right: 9 23 78 81 120 121 122 123 124 125 126
+    130 132
+assign_expressions (90)
+    on left: 10 11 12 13 14 15 16 17 18 19 20 21, on right: 8 9 11
+    12 13 14 15 16 17 18 19 20 21 24 25 45
+constant_expression (91)
+    on left: 22 23, on right: 10 23 35 100 102 119
+argument_expression_list (92)
+    on left: 24 25, on right: 25 83
+function_definition (93)
+    on left: 26 27 28 29, on right: 3 7
+all_type_specifiers (94)
+    on left: 30 31 32 33, on right: 26 27 30 32 33 40 41 109 110
+declarator (95)
+    on left: 34 35 36 37 38 39, on right: 34 44 45 109
+declaration (96)
+    on left: 40 41, on right: 2 5 116
+initialisers_list (97)
+    on left: 42 43, on right: 41 43
+initialisers_declarator (98)
+    on left: 44 45, on right: 42 43
+shift_expression (99)
+    on left: 46 47 48, on right: 47 48 58 59 60 61 62
+additive_expression (100)
+    on left: 49 50 51, on right: 46 47 48 50 51
+multiplicative_expression (101)
+    on left: 52 53 54 55, on right: 49 50 51 53 54 55
+cast_expression (102)
+    on left: 56 57, on right: 52 53 54 55 57 90
+relational_expression (103)
+    on left: 58 59 60 61 62, on right: 59 60 61 62 63 64 65
+equality_expression (104)
+    on left: 63 64 65, on right: 64 65 66 67
+and_expression (105)
+    on left: 66 67, on right: 67 68 69
+exclusive_or_expression (106)
+    on left: 68 69, on right: 69 70 71
+inclusive_or_expression (107)
+    on left: 70 71, on right: 71 72 73
+logical_and_expression (108)
+    on left: 72 73, on right: 73 74 75
+conditional_logical_or (109)
+    on left: 74 75, on right: 22 23 75
+primary_expression (110)
+    on left: 76 77 78 79, on right: 80 82 83 84 85 86
+postfix_expression (111)
+    on left: 80 81 82 83 84 85 86, on right: 81 87
+unary_expression (112)
+    on left: 87 88 89 90 91 92, on right: 11 12 13 14 15 16 17 18 19
+    20 21 56 88 89 91
+type_name (113)
+    on left: 93 94, on right: 57 92
+specifier_qualifier_list (114)
+    on left: 95 96 97, on right: 93 94 96
+abstract_declarator (115)
+    on left: 98 99 100 101 102 103 104, on right: 94 98 101 102
+parameter_type_list (116)
+    on left: 105 106, on right: 26 28 37 104
+parameter_list (117)
+    on left: 107 108, on right: 105 106 107
+parameter_declaration (118)
+    on left: 109 110, on right: 107 108
+statement (119)
+    on left: 111 112 113 114 115 116 117, on right: 118 119 120 121
+    122 123 124 125 126 135 136
+labeled_statement (120)
+    on left: 118 119, on right: 117
+if_else_statement (121)
+    on left: 120 121 122, on right: 113
+for_while_statement (122)
+    on left: 123 124 125 126, on right: 114
+return_statement (123)
+    on left: 127 128 129 130, on right: 115
+expression_statement (124)
+    on left: 131 132, on right: 111
+compound_statement (125)
+    on left: 133 134, on right: 26 27 28 29 112
+statement_list (126)
+    on left: 135 136, on right: 134 136
+storage_specifiers (127)
+    on left: 137 138 139 140 141, on right: 30
+type_specifier (128)
+    on left: 142 143 144 145 146 147 148 149 150 151 152 153 154, on right:
+    31 32 95
+unary_operator (129)
+    on left: 155 156 157 158 159 160, on right: 90
+type_qualifier (130)
+    on left: 161 162, on right: 33 96 97
+
+
+State 0
+
+    0 $accept: . root $end
+
+    String_KEY    shift, and go to state 1
+    Short_KEY     shift, and go to state 2
+    Extern_KEY    shift, and go to state 3
+    Float_KEY     shift, and go to state 4
+    Unsigned_KEY  shift, and go to state 5
+    Void_KEY      shift, and go to state 6
+    Long_KEY      shift, and go to state 7
+    Volatile_KEY  shift, and go to state 8
+    Const_KEY     shift, and go to state 9
+    Char_KEY      shift, and go to state 10
+    Auto_KEY      shift, and go to state 11
+    Double_KEY    shift, and go to state 12
+    Int_KEY       shift, and go to state 13
+    Typedef_KEY   shift, and go to state 14
+    Static_KEY    shift, and go to state 15
+    Enum_KEY      shift, and go to state 16
+    Register_KEY  shift, and go to state 17
+    Signed_KEY    shift, and go to state 18
+    Struct_KEY    shift, and go to state 19
+    Semicolon     shift, and go to state 20
+    IDENTIFIER    shift, and go to state 21
+
+    root                 go to state 22
+    top_declaration      go to state 23
+    function_definition  go to state 24
+    all_type_specifiers  go to state 25
+    declaration          go to state 26
+    storage_specifiers   go to state 27
+    type_specifier       go to state 28
+    type_qualifier       go to state 29
+
+
+State 1
+
+  154 type_specifier: String_KEY .
+
+    $default  reduce using rule 154 (type_specifier)
+
+
+State 2
+
+  144 type_specifier: Short_KEY .
+
+    $default  reduce using rule 144 (type_specifier)
+
+
+State 3
+
+  138 storage_specifiers: Extern_KEY .
+
+    $default  reduce using rule 138 (storage_specifiers)
+
+
+State 4
+
+  147 type_specifier: Float_KEY .
+
+    $default  reduce using rule 147 (type_specifier)
+
+
+State 5
+
+  150 type_specifier: Unsigned_KEY .
+
+    $default  reduce using rule 150 (type_specifier)
+
+
+State 6
+
+  142 type_specifier: Void_KEY .
+
+    $default  reduce using rule 142 (type_specifier)
+
+
+State 7
+
+  146 type_specifier: Long_KEY .
+
+    $default  reduce using rule 146 (type_specifier)
+
+
+State 8
+
+  162 type_qualifier: Volatile_KEY .
+
+    $default  reduce using rule 162 (type_qualifier)
+
+
+State 9
+
+  161 type_qualifier: Const_KEY .
+
+    $default  reduce using rule 161 (type_qualifier)
+
+
+State 10
+
+  143 type_specifier: Char_KEY .
+
+    $default  reduce using rule 143 (type_specifier)
+
+
+State 11
+
+  140 storage_specifiers: Auto_KEY .
+
+    $default  reduce using rule 140 (storage_specifiers)
+
+
+State 12
+
+  148 type_specifier: Double_KEY .
+
+    $default  reduce using rule 148 (type_specifier)
+
+
+State 13
+
+  145 type_specifier: Int_KEY .
+
+    $default  reduce using rule 145 (type_specifier)
+
+
+State 14
+
+  137 storage_specifiers: Typedef_KEY .
+  153 type_specifier: Typedef_KEY .
+
+    String_KEY     reduce using rule 137 (storage_specifiers)
+    String_KEY     [reduce using rule 153 (type_specifier)]
+    Short_KEY      reduce using rule 137 (storage_specifiers)
+    Short_KEY      [reduce using rule 153 (type_specifier)]
+    Extern_KEY     reduce using rule 137 (storage_specifiers)
+    Extern_KEY     [reduce using rule 153 (type_specifier)]
+    Float_KEY      reduce using rule 137 (storage_specifiers)
+    Float_KEY      [reduce using rule 153 (type_specifier)]
+    Unsigned_KEY   reduce using rule 137 (storage_specifiers)
+    Unsigned_KEY   [reduce using rule 153 (type_specifier)]
+    Void_KEY       reduce using rule 137 (storage_specifiers)
+    Void_KEY       [reduce using rule 153 (type_specifier)]
+    Long_KEY       reduce using rule 137 (storage_specifiers)
+    Long_KEY       [reduce using rule 153 (type_specifier)]
+    Volatile_KEY   reduce using rule 137 (storage_specifiers)
+    Volatile_KEY   [reduce using rule 153 (type_specifier)]
+    Const_KEY      reduce using rule 137 (storage_specifiers)
+    Const_KEY      [reduce using rule 153 (type_specifier)]
+    Char_KEY       reduce using rule 137 (storage_specifiers)
+    Char_KEY       [reduce using rule 153 (type_specifier)]
+    Auto_KEY       reduce using rule 137 (storage_specifiers)
+    Auto_KEY       [reduce using rule 153 (type_specifier)]
+    Double_KEY     reduce using rule 137 (storage_specifiers)
+    Double_KEY     [reduce using rule 153 (type_specifier)]
+    Int_KEY        reduce using rule 137 (storage_specifiers)
+    Int_KEY        [reduce using rule 153 (type_specifier)]
+    Typedef_KEY    reduce using rule 137 (storage_specifiers)
+    Typedef_KEY    [reduce using rule 153 (type_specifier)]
+    Static_KEY     reduce using rule 137 (storage_specifiers)
+    Static_KEY     [reduce using rule 153 (type_specifier)]
+    Enum_KEY       reduce using rule 137 (storage_specifiers)
+    Enum_KEY       [reduce using rule 153 (type_specifier)]
+    Register_KEY   reduce using rule 137 (storage_specifiers)
+    Register_KEY   [reduce using rule 153 (type_specifier)]
+    Signed_KEY     reduce using rule 137 (storage_specifiers)
+    Signed_KEY     [reduce using rule 153 (type_specifier)]
+    Struct_KEY     reduce using rule 137 (storage_specifiers)
+    Struct_KEY     [reduce using rule 153 (type_specifier)]
+    Open_BRACKET   reduce using rule 153 (type_specifier)
+    Close_BRACKET  reduce using rule 153 (type_specifier)
+    Semicolon      reduce using rule 153 (type_specifier)
+    Comma          reduce using rule 153 (type_specifier)
+    IDENTIFIER     reduce using rule 153 (type_specifier)
+    $default       reduce using rule 137 (storage_specifiers)
+
+
+State 15
+
+  139 storage_specifiers: Static_KEY .
+
+    $default  reduce using rule 139 (storage_specifiers)
+
+
+State 16
+
+  152 type_specifier: Enum_KEY .
+
+    $default  reduce using rule 152 (type_specifier)
+
+
+State 17
+
+  141 storage_specifiers: Register_KEY .
+
+    $default  reduce using rule 141 (storage_specifiers)
+
+
+State 18
+
+  149 type_specifier: Signed_KEY .
+
+    $default  reduce using rule 149 (type_specifier)
+
+
+State 19
+
+  151 type_specifier: Struct_KEY .
+
+    $default  reduce using rule 151 (type_specifier)
+
+
+State 20
+
+    6 top_declaration: Semicolon .
+
+    $default  reduce using rule 6 (top_declaration)
+
+
+State 21
+
+   28 function_definition: IDENTIFIER . Open_BRACKET parameter_type_list Close_BRACKET compound_statement
+   29                    | IDENTIFIER . Open_BRACKET Close_BRACKET compound_statement
+
+    Open_BRACKET  shift, and go to state 30
+
+
+State 22
+
+    0 $accept: root . $end
+
+    $end  shift, and go to state 31
+
+
+State 23
+
+    1 root: top_declaration .
+    2 top_declaration: top_declaration . declaration
+    3                | top_declaration . function_definition
+    4                | top_declaration . Semicolon
+
+    String_KEY    shift, and go to state 1
+    Short_KEY     shift, and go to state 2
+    Extern_KEY    shift, and go to state 3
+    Float_KEY     shift, and go to state 4
+    Unsigned_KEY  shift, and go to state 5
+    Void_KEY      shift, and go to state 6
+    Long_KEY      shift, and go to state 7
+    Volatile_KEY  shift, and go to state 8
+    Const_KEY     shift, and go to state 9
+    Char_KEY      shift, and go to state 10
+    Auto_KEY      shift, and go to state 11
+    Double_KEY    shift, and go to state 12
+    Int_KEY       shift, and go to state 13
+    Typedef_KEY   shift, and go to state 14
+    Static_KEY    shift, and go to state 15
+    Enum_KEY      shift, and go to state 16
+    Register_KEY  shift, and go to state 17
+    Signed_KEY    shift, and go to state 18
+    Struct_KEY    shift, and go to state 19
+    Semicolon     shift, and go to state 32
+    IDENTIFIER    shift, and go to state 21
+
+    $default  reduce using rule 1 (root)
+
+    function_definition  go to state 33
+    all_type_specifiers  go to state 25
+    declaration          go to state 34
+    storage_specifiers   go to state 27
+    type_specifier       go to state 28
+    type_qualifier       go to state 29
+
+
+State 24
+
+    7 top_declaration: function_definition .
+
+    $default  reduce using rule 7 (top_declaration)
+
+
+State 25
+
+   26 function_definition: all_type_specifiers . IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET compound_statement
+   27                    | all_type_specifiers . IDENTIFIER Open_BRACKET Close_BRACKET compound_statement
+   40 declaration: all_type_specifiers . Semicolon
+   41            | all_type_specifiers . initialisers_list Semicolon
+
+    Open_BRACKET  shift, and go to state 35
+    Semicolon     shift, and go to state 36
+    IDENTIFIER    shift, and go to state 37
+
+    declarator               go to state 38
+    initialisers_list        go to state 39
+    initialisers_declarator  go to state 40
+
+
+State 26
+
+    5 top_declaration: declaration .
+
+    $default  reduce using rule 5 (top_declaration)
+
+
+State 27
+
+   30 all_type_specifiers: storage_specifiers . all_type_specifiers
+
+    String_KEY    shift, and go to state 1
+    Short_KEY     shift, and go to state 2
+    Extern_KEY    shift, and go to state 3
+    Float_KEY     shift, and go to state 4
+    Unsigned_KEY  shift, and go to state 5
+    Void_KEY      shift, and go to state 6
+    Long_KEY      shift, and go to state 7
+    Volatile_KEY  shift, and go to state 8
+    Const_KEY     shift, and go to state 9
+    Char_KEY      shift, and go to state 10
+    Auto_KEY      shift, and go to state 11
+    Double_KEY    shift, and go to state 12
+    Int_KEY       shift, and go to state 13
+    Typedef_KEY   shift, and go to state 14
+    Static_KEY    shift, and go to state 15
+    Enum_KEY      shift, and go to state 16
+    Register_KEY  shift, and go to state 17
+    Signed_KEY    shift, and go to state 18
+    Struct_KEY    shift, and go to state 19
+
+    all_type_specifiers  go to state 41
+    storage_specifiers   go to state 27
+    type_specifier       go to state 28
+    type_qualifier       go to state 29
+
+
+State 28
+
+   31 all_type_specifiers: type_specifier .
+   32                    | type_specifier . all_type_specifiers
+
+    String_KEY    shift, and go to state 1
+    Short_KEY     shift, and go to state 2
+    Extern_KEY    shift, and go to state 3
+    Float_KEY     shift, and go to state 4
+    Unsigned_KEY  shift, and go to state 5
+    Void_KEY      shift, and go to state 6
+    Long_KEY      shift, and go to state 7
+    Volatile_KEY  shift, and go to state 8
+    Const_KEY     shift, and go to state 9
+    Char_KEY      shift, and go to state 10
+    Auto_KEY      shift, and go to state 11
+    Double_KEY    shift, and go to state 12
+    Int_KEY       shift, and go to state 13
+    Typedef_KEY   shift, and go to state 14
+    Static_KEY    shift, and go to state 15
+    Enum_KEY      shift, and go to state 16
+    Register_KEY  shift, and go to state 17
+    Signed_KEY    shift, and go to state 18
+    Struct_KEY    shift, and go to state 19
+
+    $default  reduce using rule 31 (all_type_specifiers)
+
+    all_type_specifiers  go to state 42
+    storage_specifiers   go to state 27
+    type_specifier       go to state 28
+    type_qualifier       go to state 29
+
+
+State 29
+
+   33 all_type_specifiers: type_qualifier . all_type_specifiers
+
+    String_KEY    shift, and go to state 1
+    Short_KEY     shift, and go to state 2
+    Extern_KEY    shift, and go to state 3
+    Float_KEY     shift, and go to state 4
+    Unsigned_KEY  shift, and go to state 5
+    Void_KEY      shift, and go to state 6
+    Long_KEY      shift, and go to state 7
+    Volatile_KEY  shift, and go to state 8
+    Const_KEY     shift, and go to state 9
+    Char_KEY      shift, and go to state 10
+    Auto_KEY      shift, and go to state 11
+    Double_KEY    shift, and go to state 12
+    Int_KEY       shift, and go to state 13
+    Typedef_KEY   shift, and go to state 14
+    Static_KEY    shift, and go to state 15
+    Enum_KEY      shift, and go to state 16
+    Register_KEY  shift, and go to state 17
+    Signed_KEY    shift, and go to state 18
+    Struct_KEY    shift, and go to state 19
+
+    all_type_specifiers  go to state 43
+    storage_specifiers   go to state 27
+    type_specifier       go to state 28
+    type_qualifier       go to state 29
+
+
+State 30
+
+   28 function_definition: IDENTIFIER Open_BRACKET . parameter_type_list Close_BRACKET compound_statement
+   29                    | IDENTIFIER Open_BRACKET . Close_BRACKET compound_statement
+
+    String_KEY     shift, and go to state 1
+    Short_KEY      shift, and go to state 2
+    Extern_KEY     shift, and go to state 3
+    Float_KEY      shift, and go to state 4
+    Unsigned_KEY   shift, and go to state 5
+    Void_KEY       shift, and go to state 6
+    Long_KEY       shift, and go to state 7
+    Volatile_KEY   shift, and go to state 8
+    Const_KEY      shift, and go to state 9
+    Char_KEY       shift, and go to state 10
+    Auto_KEY       shift, and go to state 11
+    Double_KEY     shift, and go to state 12
+    Int_KEY        shift, and go to state 13
+    Typedef_KEY    shift, and go to state 14
+    Static_KEY     shift, and go to state 15
+    Enum_KEY       shift, and go to state 16
+    Register_KEY   shift, and go to state 17
+    Signed_KEY     shift, and go to state 18
+    Struct_KEY     shift, and go to state 19
+    Close_BRACKET  shift, and go to state 44
+
+    all_type_specifiers    go to state 45
+    parameter_type_list    go to state 46
+    parameter_list         go to state 47
+    parameter_declaration  go to state 48
+    storage_specifiers     go to state 27
+    type_specifier         go to state 28
+    type_qualifier         go to state 29
+
+
+State 31
+
+    0 $accept: root $end .
+
+    $default  accept
+
+
+State 32
+
+    4 top_declaration: top_declaration Semicolon .
+
+    $default  reduce using rule 4 (top_declaration)
+
+
+State 33
+
+    3 top_declaration: top_declaration function_definition .
+
+    $default  reduce using rule 3 (top_declaration)
+
+
+State 34
+
+    2 top_declaration: top_declaration declaration .
+
+    $default  reduce using rule 2 (top_declaration)
+
+
+State 35
+
+   34 declarator: Open_BRACKET . declarator Close_BRACKET
+
+    Open_BRACKET  shift, and go to state 35
+    IDENTIFIER    shift, and go to state 49
+
+    declarator  go to state 50
+
+
+State 36
+
+   40 declaration: all_type_specifiers Semicolon .
+
+    $default  reduce using rule 40 (declaration)
+
+
+State 37
+
+   26 function_definition: all_type_specifiers IDENTIFIER . Open_BRACKET parameter_type_list Close_BRACKET compound_statement
+   27                    | all_type_specifiers IDENTIFIER . Open_BRACKET Close_BRACKET compound_statement
+   35 declarator: IDENTIFIER . OSquare_BRACKET constant_expression CSquare_BRACKET
+   36           | IDENTIFIER . OSquare_BRACKET CSquare_BRACKET
+   37           | IDENTIFIER . Open_BRACKET parameter_type_list Close_BRACKET
+   38           | IDENTIFIER . Open_BRACKET Close_BRACKET
+   39           | IDENTIFIER .
+
+    Open_BRACKET     shift, and go to state 51
+    OSquare_BRACKET  shift, and go to state 52
+
+    $default  reduce using rule 39 (declarator)
+
+
+State 38
+
+   44 initialisers_declarator: declarator .
+   45                        | declarator . Equal assign_expressions
+
+    Equal  shift, and go to state 53
+
+    $default  reduce using rule 44 (initialisers_declarator)
+
+
+State 39
+
+   41 declaration: all_type_specifiers initialisers_list . Semicolon
+   43 initialisers_list: initialisers_list . Comma initialisers_declarator
+
+    Semicolon  shift, and go to state 54
+    Comma      shift, and go to state 55
+
+
+State 40
+
+   42 initialisers_list: initialisers_declarator .
+
+    $default  reduce using rule 42 (initialisers_list)
+
+
+State 41
+
+   30 all_type_specifiers: storage_specifiers all_type_specifiers .
+
+    $default  reduce using rule 30 (all_type_specifiers)
+
+
+State 42
+
+   32 all_type_specifiers: type_specifier all_type_specifiers .
+
+    $default  reduce using rule 32 (all_type_specifiers)
+
+
+State 43
+
+   33 all_type_specifiers: type_qualifier all_type_specifiers .
+
+    $default  reduce using rule 33 (all_type_specifiers)
+
+
+State 44
+
+   29 function_definition: IDENTIFIER Open_BRACKET Close_BRACKET . compound_statement
+
+    OCurly_BRACKET  shift, and go to state 56
+
+    compound_statement  go to state 57
+
+
+State 45
+
+  109 parameter_declaration: all_type_specifiers . declarator
+  110                      | all_type_specifiers .
+
+    Open_BRACKET  shift, and go to state 35
+    IDENTIFIER    shift, and go to state 49
+
+    $default  reduce using rule 110 (parameter_declaration)
+
+    declarator  go to state 58
+
+
+State 46
+
+   28 function_definition: IDENTIFIER Open_BRACKET parameter_type_list . Close_BRACKET compound_statement
+
+    Close_BRACKET  shift, and go to state 59
+
+
+State 47
+
+  105 parameter_type_list: parameter_list .
+  106                    | parameter_list . Comma Ellipses
+  107 parameter_list: parameter_list . Comma parameter_declaration
+
+    Comma  shift, and go to state 60
+
+    $default  reduce using rule 105 (parameter_type_list)
+
+
+State 48
+
+  108 parameter_list: parameter_declaration .
+
+    $default  reduce using rule 108 (parameter_list)
+
+
+State 49
+
+   35 declarator: IDENTIFIER . OSquare_BRACKET constant_expression CSquare_BRACKET
+   36           | IDENTIFIER . OSquare_BRACKET CSquare_BRACKET
+   37           | IDENTIFIER . Open_BRACKET parameter_type_list Close_BRACKET
+   38           | IDENTIFIER . Open_BRACKET Close_BRACKET
+   39           | IDENTIFIER .
+
+    Open_BRACKET     shift, and go to state 61
+    OSquare_BRACKET  shift, and go to state 52
+
+    $default  reduce using rule 39 (declarator)
+
+
+State 50
+
+   34 declarator: Open_BRACKET declarator . Close_BRACKET
+
+    Close_BRACKET  shift, and go to state 62
+
+
+State 51
+
+   26 function_definition: all_type_specifiers IDENTIFIER Open_BRACKET . parameter_type_list Close_BRACKET compound_statement
+   27                    | all_type_specifiers IDENTIFIER Open_BRACKET . Close_BRACKET compound_statement
+   37 declarator: IDENTIFIER Open_BRACKET . parameter_type_list Close_BRACKET
+   38           | IDENTIFIER Open_BRACKET . Close_BRACKET
+
+    String_KEY     shift, and go to state 1
+    Short_KEY      shift, and go to state 2
+    Extern_KEY     shift, and go to state 3
+    Float_KEY      shift, and go to state 4
+    Unsigned_KEY   shift, and go to state 5
+    Void_KEY       shift, and go to state 6
+    Long_KEY       shift, and go to state 7
+    Volatile_KEY   shift, and go to state 8
+    Const_KEY      shift, and go to state 9
+    Char_KEY       shift, and go to state 10
+    Auto_KEY       shift, and go to state 11
+    Double_KEY     shift, and go to state 12
+    Int_KEY        shift, and go to state 13
+    Typedef_KEY    shift, and go to state 14
+    Static_KEY     shift, and go to state 15
+    Enum_KEY       shift, and go to state 16
+    Register_KEY   shift, and go to state 17
+    Signed_KEY     shift, and go to state 18
+    Struct_KEY     shift, and go to state 19
+    Close_BRACKET  shift, and go to state 63
+
+    all_type_specifiers    go to state 45
+    parameter_type_list    go to state 64
+    parameter_list         go to state 47
+    parameter_declaration  go to state 48
+    storage_specifiers     go to state 27
+    type_specifier         go to state 28
+    type_qualifier         go to state 29
+
+
+State 52
+
+   35 declarator: IDENTIFIER OSquare_BRACKET . constant_expression CSquare_BRACKET
+   36           | IDENTIFIER OSquare_BRACKET . CSquare_BRACKET
+
+    Sizeof_KEY       shift, and go to state 65
+    Plus_MATH        shift, and go to state 66
+    Subtract_MATH    shift, and go to state 67
+    Multiply_MATH    shift, and go to state 68
+    Increment_MATH   shift, and go to state 69
+    Decrement_MATH   shift, and go to state 70
+    And_BIT          shift, and go to state 71
+    Tilde_BIT        shift, and go to state 72
+    Not_BIT          shift, and go to state 73
+    Open_BRACKET     shift, and go to state 74
+    CSquare_BRACKET  shift, and go to state 75
+    IDENTIFIER       shift, and go to state 76
+    string_literal   shift, and go to state 77
+    NUMBER           shift, and go to state 78
+
+    constant_expression        go to state 79
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 53
+
+   45 initialisers_declarator: declarator Equal . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 95
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 54
+
+   41 declaration: all_type_specifiers initialisers_list Semicolon .
+
+    $default  reduce using rule 41 (declaration)
+
+
+State 55
+
+   43 initialisers_list: initialisers_list Comma . initialisers_declarator
+
+    Open_BRACKET  shift, and go to state 35
+    IDENTIFIER    shift, and go to state 49
+
+    declarator               go to state 38
+    initialisers_declarator  go to state 98
+
+
+State 56
+
+  133 compound_statement: OCurly_BRACKET . CCurly_BRACKET
+  134                   | OCurly_BRACKET . statement_list CCurly_BRACKET
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    CCurly_BRACKET  shift, and go to state 108
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 115
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    statement_list             go to state 122
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 57
+
+   29 function_definition: IDENTIFIER Open_BRACKET Close_BRACKET compound_statement .
+
+    $default  reduce using rule 29 (function_definition)
+
+
+State 58
+
+  109 parameter_declaration: all_type_specifiers declarator .
+
+    $default  reduce using rule 109 (parameter_declaration)
+
+
+State 59
+
+   28 function_definition: IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET . compound_statement
+
+    OCurly_BRACKET  shift, and go to state 56
+
+    compound_statement  go to state 123
+
+
+State 60
+
+  106 parameter_type_list: parameter_list Comma . Ellipses
+  107 parameter_list: parameter_list Comma . parameter_declaration
+
+    String_KEY    shift, and go to state 1
+    Short_KEY     shift, and go to state 2
+    Extern_KEY    shift, and go to state 3
+    Float_KEY     shift, and go to state 4
+    Unsigned_KEY  shift, and go to state 5
+    Void_KEY      shift, and go to state 6
+    Long_KEY      shift, and go to state 7
+    Volatile_KEY  shift, and go to state 8
+    Const_KEY     shift, and go to state 9
+    Char_KEY      shift, and go to state 10
+    Auto_KEY      shift, and go to state 11
+    Double_KEY    shift, and go to state 12
+    Int_KEY       shift, and go to state 13
+    Typedef_KEY   shift, and go to state 14
+    Static_KEY    shift, and go to state 15
+    Enum_KEY      shift, and go to state 16
+    Register_KEY  shift, and go to state 17
+    Signed_KEY    shift, and go to state 18
+    Struct_KEY    shift, and go to state 19
+    Ellipses      shift, and go to state 124
+
+    all_type_specifiers    go to state 45
+    parameter_declaration  go to state 125
+    storage_specifiers     go to state 27
+    type_specifier         go to state 28
+    type_qualifier         go to state 29
+
+
+State 61
+
+   37 declarator: IDENTIFIER Open_BRACKET . parameter_type_list Close_BRACKET
+   38           | IDENTIFIER Open_BRACKET . Close_BRACKET
+
+    String_KEY     shift, and go to state 1
+    Short_KEY      shift, and go to state 2
+    Extern_KEY     shift, and go to state 3
+    Float_KEY      shift, and go to state 4
+    Unsigned_KEY   shift, and go to state 5
+    Void_KEY       shift, and go to state 6
+    Long_KEY       shift, and go to state 7
+    Volatile_KEY   shift, and go to state 8
+    Const_KEY      shift, and go to state 9
+    Char_KEY       shift, and go to state 10
+    Auto_KEY       shift, and go to state 11
+    Double_KEY     shift, and go to state 12
+    Int_KEY        shift, and go to state 13
+    Typedef_KEY    shift, and go to state 14
+    Static_KEY     shift, and go to state 15
+    Enum_KEY       shift, and go to state 16
+    Register_KEY   shift, and go to state 17
+    Signed_KEY     shift, and go to state 18
+    Struct_KEY     shift, and go to state 19
+    Close_BRACKET  shift, and go to state 126
+
+    all_type_specifiers    go to state 45
+    parameter_type_list    go to state 127
+    parameter_list         go to state 47
+    parameter_declaration  go to state 48
+    storage_specifiers     go to state 27
+    type_specifier         go to state 28
+    type_qualifier         go to state 29
+
+
+State 62
+
+   34 declarator: Open_BRACKET declarator Close_BRACKET .
+
+    $default  reduce using rule 34 (declarator)
+
+
+State 63
+
+   27 function_definition: all_type_specifiers IDENTIFIER Open_BRACKET Close_BRACKET . compound_statement
+   38 declarator: IDENTIFIER Open_BRACKET Close_BRACKET .
+
+    OCurly_BRACKET  shift, and go to state 56
+
+    $default  reduce using rule 38 (declarator)
+
+    compound_statement  go to state 128
+
+
+State 64
+
+   26 function_definition: all_type_specifiers IDENTIFIER Open_BRACKET parameter_type_list . Close_BRACKET compound_statement
+   37 declarator: IDENTIFIER Open_BRACKET parameter_type_list . Close_BRACKET
+
+    Close_BRACKET  shift, and go to state 129
+
+
+State 65
+
+   91 unary_expression: Sizeof_KEY . unary_expression
+   92                 | Sizeof_KEY . Open_BRACKET type_name Close_BRACKET
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 130
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 131
+    unary_operator      go to state 94
+
+
+State 66
+
+  157 unary_operator: Plus_MATH .
+
+    $default  reduce using rule 157 (unary_operator)
+
+
+State 67
+
+  158 unary_operator: Subtract_MATH .
+
+    $default  reduce using rule 158 (unary_operator)
+
+
+State 68
+
+  156 unary_operator: Multiply_MATH .
+
+    $default  reduce using rule 156 (unary_operator)
+
+
+State 69
+
+   88 unary_expression: Increment_MATH . unary_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 132
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 133
+    unary_operator      go to state 94
+
+
+State 70
+
+   89 unary_expression: Decrement_MATH . unary_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 132
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 134
+    unary_operator      go to state 94
+
+
+State 71
+
+  155 unary_operator: And_BIT .
+
+    $default  reduce using rule 155 (unary_operator)
+
+
+State 72
+
+  159 unary_operator: Tilde_BIT .
+
+    $default  reduce using rule 159 (unary_operator)
+
+
+State 73
+
+  160 unary_operator: Not_BIT .
+
+    $default  reduce using rule 160 (unary_operator)
+
+
+State 74
+
+   57 cast_expression: Open_BRACKET . type_name Close_BRACKET cast_expression
+   78 primary_expression: Open_BRACKET . expression Close_BRACKET
+
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 135
+    Enum_KEY        shift, and go to state 16
+    Signed_KEY      shift, and go to state 18
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 136
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    type_name                  go to state 137
+    specifier_qualifier_list   go to state 138
+    type_specifier             go to state 139
+    unary_operator             go to state 94
+    type_qualifier             go to state 140
+
+
+State 75
+
+   36 declarator: IDENTIFIER OSquare_BRACKET CSquare_BRACKET .
+
+    $default  reduce using rule 36 (declarator)
+
+
+State 76
+
+   77 primary_expression: IDENTIFIER .
+
+    $default  reduce using rule 77 (primary_expression)
+
+
+State 77
+
+   79 primary_expression: string_literal .
+
+    $default  reduce using rule 79 (primary_expression)
+
+
+State 78
+
+   76 primary_expression: NUMBER .
+
+    $default  reduce using rule 76 (primary_expression)
+
+
+State 79
+
+   35 declarator: IDENTIFIER OSquare_BRACKET constant_expression . CSquare_BRACKET
+
+    CSquare_BRACKET  shift, and go to state 141
+
+
+State 80
+
+   47 shift_expression: shift_expression . LShift_BIT additive_expression
+   48                 | shift_expression . RShift_BIT additive_expression
+   58 relational_expression: shift_expression .
+
+    LShift_BIT  shift, and go to state 142
+    RShift_BIT  shift, and go to state 143
+
+    $default  reduce using rule 58 (relational_expression)
+
+
+State 81
+
+   46 shift_expression: additive_expression .
+   50 additive_expression: additive_expression . Plus_MATH multiplicative_expression
+   51                    | additive_expression . Subtract_MATH multiplicative_expression
+
+    Plus_MATH      shift, and go to state 144
+    Subtract_MATH  shift, and go to state 145
+
+    $default  reduce using rule 46 (shift_expression)
+
+
+State 82
+
+   49 additive_expression: multiplicative_expression .
+   53 multiplicative_expression: multiplicative_expression . Multiply_MATH cast_expression
+   54                          | multiplicative_expression . Divide_MATH cast_expression
+   55                          | multiplicative_expression . Percentage_MATH cast_expression
+
+    Multiply_MATH    shift, and go to state 146
+    Divide_MATH      shift, and go to state 147
+    Percentage_MATH  shift, and go to state 148
+
+    $default  reduce using rule 49 (additive_expression)
+
+
+State 83
+
+   52 multiplicative_expression: cast_expression .
+
+    $default  reduce using rule 52 (multiplicative_expression)
+
+
+State 84
+
+   59 relational_expression: relational_expression . Less_COMP shift_expression
+   60                      | relational_expression . Greater_COMP shift_expression
+   61                      | relational_expression . LEqual_COMP shift_expression
+   62                      | relational_expression . GEqual_COMP shift_expression
+   63 equality_expression: relational_expression .
+
+    Less_COMP     shift, and go to state 149
+    Greater_COMP  shift, and go to state 150
+    GEqual_COMP   shift, and go to state 151
+    LEqual_COMP   shift, and go to state 152
+
+    $default  reduce using rule 63 (equality_expression)
+
+
+State 85
+
+   64 equality_expression: equality_expression . Equal_COMP relational_expression
+   65                    | equality_expression . NEqual_COMP relational_expression
+   66 and_expression: equality_expression .
+
+    Equal_COMP   shift, and go to state 153
+    NEqual_COMP  shift, and go to state 154
+
+    $default  reduce using rule 66 (and_expression)
+
+
+State 86
+
+   67 and_expression: and_expression . And_BIT equality_expression
+   68 exclusive_or_expression: and_expression .
+
+    And_BIT  shift, and go to state 155
+
+    $default  reduce using rule 68 (exclusive_or_expression)
+
+
+State 87
+
+   69 exclusive_or_expression: exclusive_or_expression . Xor_BIT and_expression
+   70 inclusive_or_expression: exclusive_or_expression .
+
+    Xor_BIT  shift, and go to state 156
+
+    $default  reduce using rule 70 (inclusive_or_expression)
+
+
+State 88
+
+   71 inclusive_or_expression: inclusive_or_expression . Or_BIT exclusive_or_expression
+   72 logical_and_expression: inclusive_or_expression .
+
+    Or_BIT  shift, and go to state 157
+
+    $default  reduce using rule 72 (logical_and_expression)
+
+
+State 89
+
+   73 logical_and_expression: logical_and_expression . AndAnd_BIT inclusive_or_expression
+   74 conditional_logical_or: logical_and_expression .
+
+    AndAnd_BIT  shift, and go to state 158
+
+    $default  reduce using rule 74 (conditional_logical_or)
+
+
+State 90
+
+   22 constant_expression: conditional_logical_or .
+   23                    | conditional_logical_or . Question_BIT expression Colon constant_expression
+   75 conditional_logical_or: conditional_logical_or . OrOr_BIT logical_and_expression
+
+    OrOr_BIT      shift, and go to state 159
+    Question_BIT  shift, and go to state 160
+
+    $default  reduce using rule 22 (constant_expression)
+
+
+State 91
+
+   80 postfix_expression: primary_expression .
+   82                   | primary_expression . Open_BRACKET Close_BRACKET
+   83                   | primary_expression . Open_BRACKET argument_expression_list Close_BRACKET
+   84                   | primary_expression . Dot_Ref IDENTIFIER
+   85                   | primary_expression . Increment_MATH
+   86                   | primary_expression . Decrement_MATH
+
+    Increment_MATH  shift, and go to state 161
+    Decrement_MATH  shift, and go to state 162
+    Open_BRACKET    shift, and go to state 163
+    Dot_Ref         shift, and go to state 164
+
+    $default  reduce using rule 80 (postfix_expression)
+
+
+State 92
+
+   81 postfix_expression: postfix_expression . OSquare_BRACKET expression CSquare_BRACKET
+   87 unary_expression: postfix_expression .
+
+    OSquare_BRACKET  shift, and go to state 165
+
+    $default  reduce using rule 87 (unary_expression)
+
+
+State 93
+
+   56 cast_expression: unary_expression .
+
+    $default  reduce using rule 56 (cast_expression)
+
+
+State 94
+
+   90 unary_expression: unary_operator . cast_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    cast_expression     go to state 166
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 93
+    unary_operator      go to state 94
+
+
+State 95
+
+   45 initialisers_declarator: declarator Equal assign_expressions .
+
+    $default  reduce using rule 45 (initialisers_declarator)
+
+
+State 96
+
+   10 assign_expressions: constant_expression .
+
+    $default  reduce using rule 10 (assign_expressions)
+
+
+State 97
+
+   11 assign_expressions: unary_expression . Equal assign_expressions
+   12                   | unary_expression . Add_CURRENT assign_expressions
+   13                   | unary_expression . Sub_CURRENT assign_expressions
+   14                   | unary_expression . Mul_CURRENT assign_expressions
+   15                   | unary_expression . Div_CURRENT assign_expressions
+   16                   | unary_expression . Mod_CURRENT assign_expressions
+   17                   | unary_expression . And_CURRENT assign_expressions
+   18                   | unary_expression . Xor_CURRENT assign_expressions
+   19                   | unary_expression . Or_CURRENT assign_expressions
+   20                   | unary_expression . LShift_CURRENT assign_expressions
+   21                   | unary_expression . RShift_CURRENT assign_expressions
+   56 cast_expression: unary_expression .
+
+    Add_CURRENT     shift, and go to state 167
+    Sub_CURRENT     shift, and go to state 168
+    Mul_CURRENT     shift, and go to state 169
+    Div_CURRENT     shift, and go to state 170
+    Mod_CURRENT     shift, and go to state 171
+    And_CURRENT     shift, and go to state 172
+    Xor_CURRENT     shift, and go to state 173
+    Or_CURRENT      shift, and go to state 174
+    LShift_CURRENT  shift, and go to state 175
+    RShift_CURRENT  shift, and go to state 176
+    Equal           shift, and go to state 177
+
+    $default  reduce using rule 56 (cast_expression)
+
+
+State 98
+
+   43 initialisers_list: initialisers_list Comma initialisers_declarator .
+
+    $default  reduce using rule 43 (initialisers_list)
+
+
+State 99
+
+  127 return_statement: Continue_KEY . Semicolon
+
+    Semicolon  shift, and go to state 178
+
+
+State 100
+
+  120 if_else_statement: If_KEY . Open_BRACKET expression Close_BRACKET statement
+  121                  | If_KEY . Open_BRACKET expression Close_BRACKET statement Else_KEY statement
+
+    Open_BRACKET  shift, and go to state 179
+
+
+State 101
+
+  125 for_while_statement: While_KEY . Open_BRACKET expression Close_BRACKET statement
+
+    Open_BRACKET  shift, and go to state 180
+
+
+State 102
+
+  123 for_while_statement: For_KEY . Open_BRACKET expression Semicolon expression Semicolon Close_BRACKET statement
+  124                    | For_KEY . Open_BRACKET expression Semicolon expression Semicolon expression Close_BRACKET statement
+
+    Open_BRACKET  shift, and go to state 181
+
+
+State 103
+
+  126 for_while_statement: Do_KEY . statement While_KEY Open_BRACKET expression Close_BRACKET Semicolon
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 182
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 104
+
+  129 return_statement: Return_KEY . Semicolon
+  130                 | Return_KEY . expression Semicolon
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    Semicolon       shift, and go to state 183
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 184
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 105
+
+  119 labeled_statement: Case_KEY . constant_expression Colon statement
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    constant_expression        go to state 185
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 106
+
+  128 return_statement: Break_KEY . Semicolon
+
+    Semicolon  shift, and go to state 186
+
+
+State 107
+
+  122 if_else_statement: Switch_KEY . Open_BRACKET expression Close_BRACKET statement
+
+    Open_BRACKET  shift, and go to state 187
+
+
+State 108
+
+  133 compound_statement: OCurly_BRACKET CCurly_BRACKET .
+
+    $default  reduce using rule 133 (compound_statement)
+
+
+State 109
+
+  131 expression_statement: Semicolon .
+
+    $default  reduce using rule 131 (expression_statement)
+
+
+State 110
+
+   77 primary_expression: IDENTIFIER .
+  118 labeled_statement: IDENTIFIER . Colon statement
+
+    Colon  shift, and go to state 188
+
+    $default  reduce using rule 77 (primary_expression)
+
+
+State 111
+
+    9 expression: expression . Comma assign_expressions
+  132 expression_statement: expression . Semicolon
+
+    Semicolon  shift, and go to state 189
+    Comma      shift, and go to state 190
+
+
+State 112
+
+    8 expression: assign_expressions .
+
+    $default  reduce using rule 8 (expression)
+
+
+State 113
+
+   40 declaration: all_type_specifiers . Semicolon
+   41            | all_type_specifiers . initialisers_list Semicolon
+
+    Open_BRACKET  shift, and go to state 35
+    Semicolon     shift, and go to state 36
+    IDENTIFIER    shift, and go to state 49
+
+    declarator               go to state 38
+    initialisers_list        go to state 39
+    initialisers_declarator  go to state 40
+
+
+State 114
+
+  116 statement: declaration .
+
+    $default  reduce using rule 116 (statement)
+
+
+State 115
+
+  135 statement_list: statement .
+
+    $default  reduce using rule 135 (statement_list)
+
+
+State 116
+
+  117 statement: labeled_statement .
+
+    $default  reduce using rule 117 (statement)
+
+
+State 117
+
+  113 statement: if_else_statement .
+
+    $default  reduce using rule 113 (statement)
+
+
+State 118
+
+  114 statement: for_while_statement .
+
+    $default  reduce using rule 114 (statement)
+
+
+State 119
+
+  115 statement: return_statement .
+
+    $default  reduce using rule 115 (statement)
+
+
+State 120
+
+  111 statement: expression_statement .
+
+    $default  reduce using rule 111 (statement)
+
+
+State 121
+
+  112 statement: compound_statement .
+
+    $default  reduce using rule 112 (statement)
+
+
+State 122
+
+  134 compound_statement: OCurly_BRACKET statement_list . CCurly_BRACKET
+  136 statement_list: statement_list . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    CCurly_BRACKET  shift, and go to state 191
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 192
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 123
+
+   28 function_definition: IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET compound_statement .
+
+    $default  reduce using rule 28 (function_definition)
+
+
+State 124
+
+  106 parameter_type_list: parameter_list Comma Ellipses .
+
+    $default  reduce using rule 106 (parameter_type_list)
+
+
+State 125
+
+  107 parameter_list: parameter_list Comma parameter_declaration .
+
+    $default  reduce using rule 107 (parameter_list)
+
+
+State 126
+
+   38 declarator: IDENTIFIER Open_BRACKET Close_BRACKET .
+
+    $default  reduce using rule 38 (declarator)
+
+
+State 127
+
+   37 declarator: IDENTIFIER Open_BRACKET parameter_type_list . Close_BRACKET
+
+    Close_BRACKET  shift, and go to state 193
+
+
+State 128
+
+   27 function_definition: all_type_specifiers IDENTIFIER Open_BRACKET Close_BRACKET compound_statement .
+
+    $default  reduce using rule 27 (function_definition)
+
+
+State 129
+
+   26 function_definition: all_type_specifiers IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET . compound_statement
+   37 declarator: IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET .
+
+    OCurly_BRACKET  shift, and go to state 56
+
+    $default  reduce using rule 37 (declarator)
+
+    compound_statement  go to state 194
+
+
+State 130
+
+   78 primary_expression: Open_BRACKET . expression Close_BRACKET
+   92 unary_expression: Sizeof_KEY Open_BRACKET . type_name Close_BRACKET
+
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 135
+    Enum_KEY        shift, and go to state 16
+    Signed_KEY      shift, and go to state 18
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 136
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    type_name                  go to state 195
+    specifier_qualifier_list   go to state 138
+    type_specifier             go to state 139
+    unary_operator             go to state 94
+    type_qualifier             go to state 140
+
+
+State 131
+
+   91 unary_expression: Sizeof_KEY unary_expression .
+
+    $default  reduce using rule 91 (unary_expression)
+
+
+State 132
+
+   78 primary_expression: Open_BRACKET . expression Close_BRACKET
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 136
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 133
+
+   88 unary_expression: Increment_MATH unary_expression .
+
+    $default  reduce using rule 88 (unary_expression)
+
+
+State 134
+
+   89 unary_expression: Decrement_MATH unary_expression .
+
+    $default  reduce using rule 89 (unary_expression)
+
+
+State 135
+
+  153 type_specifier: Typedef_KEY .
+
+    $default  reduce using rule 153 (type_specifier)
+
+
+State 136
+
+    9 expression: expression . Comma assign_expressions
+   78 primary_expression: Open_BRACKET expression . Close_BRACKET
+
+    Close_BRACKET  shift, and go to state 196
+    Comma          shift, and go to state 190
+
+
+State 137
+
+   57 cast_expression: Open_BRACKET type_name . Close_BRACKET cast_expression
+
+    Close_BRACKET  shift, and go to state 197
+
+
+State 138
+
+   93 type_name: specifier_qualifier_list .
+   94          | specifier_qualifier_list . abstract_declarator
+
+    Open_BRACKET     shift, and go to state 198
+    OSquare_BRACKET  shift, and go to state 199
+
+    $default  reduce using rule 93 (type_name)
+
+    abstract_declarator  go to state 200
+
+
+State 139
+
+   95 specifier_qualifier_list: type_specifier .
+
+    $default  reduce using rule 95 (specifier_qualifier_list)
+
+
+State 140
+
+   96 specifier_qualifier_list: type_qualifier . specifier_qualifier_list
+   97                         | type_qualifier .
+
+    String_KEY    shift, and go to state 1
+    Short_KEY     shift, and go to state 2
+    Float_KEY     shift, and go to state 4
+    Unsigned_KEY  shift, and go to state 5
+    Void_KEY      shift, and go to state 6
+    Long_KEY      shift, and go to state 7
+    Volatile_KEY  shift, and go to state 8
+    Const_KEY     shift, and go to state 9
+    Char_KEY      shift, and go to state 10
+    Double_KEY    shift, and go to state 12
+    Int_KEY       shift, and go to state 13
+    Typedef_KEY   shift, and go to state 135
+    Enum_KEY      shift, and go to state 16
+    Signed_KEY    shift, and go to state 18
+    Struct_KEY    shift, and go to state 19
+
+    $default  reduce using rule 97 (specifier_qualifier_list)
+
+    specifier_qualifier_list  go to state 201
+    type_specifier            go to state 139
+    type_qualifier            go to state 140
+
+
+State 141
+
+   35 declarator: IDENTIFIER OSquare_BRACKET constant_expression CSquare_BRACKET .
+
+    $default  reduce using rule 35 (declarator)
+
+
+State 142
+
+   47 shift_expression: shift_expression LShift_BIT . additive_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    additive_expression        go to state 202
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 143
+
+   48 shift_expression: shift_expression RShift_BIT . additive_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    additive_expression        go to state 203
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 144
+
+   50 additive_expression: additive_expression Plus_MATH . multiplicative_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    multiplicative_expression  go to state 204
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 145
+
+   51 additive_expression: additive_expression Subtract_MATH . multiplicative_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    multiplicative_expression  go to state 205
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 146
+
+   53 multiplicative_expression: multiplicative_expression Multiply_MATH . cast_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    cast_expression     go to state 206
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 93
+    unary_operator      go to state 94
+
+
+State 147
+
+   54 multiplicative_expression: multiplicative_expression Divide_MATH . cast_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    cast_expression     go to state 207
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 93
+    unary_operator      go to state 94
+
+
+State 148
+
+   55 multiplicative_expression: multiplicative_expression Percentage_MATH . cast_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    cast_expression     go to state 208
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 93
+    unary_operator      go to state 94
+
+
+State 149
+
+   59 relational_expression: relational_expression Less_COMP . shift_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 209
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 150
+
+   60 relational_expression: relational_expression Greater_COMP . shift_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 210
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 151
+
+   62 relational_expression: relational_expression GEqual_COMP . shift_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 211
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 152
+
+   61 relational_expression: relational_expression LEqual_COMP . shift_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 212
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 153
+
+   64 equality_expression: equality_expression Equal_COMP . relational_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 213
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 154
+
+   65 equality_expression: equality_expression NEqual_COMP . relational_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 214
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 155
+
+   67 and_expression: and_expression And_BIT . equality_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 215
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 156
+
+   69 exclusive_or_expression: exclusive_or_expression Xor_BIT . and_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 216
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 157
+
+   71 inclusive_or_expression: inclusive_or_expression Or_BIT . exclusive_or_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 217
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 158
+
+   73 logical_and_expression: logical_and_expression AndAnd_BIT . inclusive_or_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 218
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 159
+
+   75 conditional_logical_or: conditional_logical_or OrOr_BIT . logical_and_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 219
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 160
+
+   23 constant_expression: conditional_logical_or Question_BIT . expression Colon constant_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 220
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 161
+
+   85 postfix_expression: primary_expression Increment_MATH .
+
+    $default  reduce using rule 85 (postfix_expression)
+
+
+State 162
+
+   86 postfix_expression: primary_expression Decrement_MATH .
+
+    $default  reduce using rule 86 (postfix_expression)
+
+
+State 163
+
+   82 postfix_expression: primary_expression Open_BRACKET . Close_BRACKET
+   83                   | primary_expression Open_BRACKET . argument_expression_list Close_BRACKET
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    Close_BRACKET   shift, and go to state 221
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 222
+    constant_expression        go to state 96
+    argument_expression_list   go to state 223
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 164
+
+   84 postfix_expression: primary_expression Dot_Ref . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 224
+
+
+State 165
+
+   81 postfix_expression: postfix_expression OSquare_BRACKET . expression CSquare_BRACKET
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 225
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 166
+
+   90 unary_expression: unary_operator cast_expression .
+
+    $default  reduce using rule 90 (unary_expression)
+
+
+State 167
+
+   12 assign_expressions: unary_expression Add_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 226
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 168
+
+   13 assign_expressions: unary_expression Sub_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 227
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 169
+
+   14 assign_expressions: unary_expression Mul_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 228
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 170
+
+   15 assign_expressions: unary_expression Div_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 229
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 171
+
+   16 assign_expressions: unary_expression Mod_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 230
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 172
+
+   17 assign_expressions: unary_expression And_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 231
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 173
+
+   18 assign_expressions: unary_expression Xor_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 232
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 174
+
+   19 assign_expressions: unary_expression Or_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 233
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 175
+
+   20 assign_expressions: unary_expression LShift_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 234
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 176
+
+   21 assign_expressions: unary_expression RShift_CURRENT . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 235
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 177
+
+   11 assign_expressions: unary_expression Equal . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 236
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 178
+
+  127 return_statement: Continue_KEY Semicolon .
+
+    $default  reduce using rule 127 (return_statement)
+
+
+State 179
+
+  120 if_else_statement: If_KEY Open_BRACKET . expression Close_BRACKET statement
+  121                  | If_KEY Open_BRACKET . expression Close_BRACKET statement Else_KEY statement
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 237
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 180
+
+  125 for_while_statement: While_KEY Open_BRACKET . expression Close_BRACKET statement
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 238
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 181
+
+  123 for_while_statement: For_KEY Open_BRACKET . expression Semicolon expression Semicolon Close_BRACKET statement
+  124                    | For_KEY Open_BRACKET . expression Semicolon expression Semicolon expression Close_BRACKET statement
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 239
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 182
+
+  126 for_while_statement: Do_KEY statement . While_KEY Open_BRACKET expression Close_BRACKET Semicolon
+
+    While_KEY  shift, and go to state 240
+
+
+State 183
+
+  129 return_statement: Return_KEY Semicolon .
+
+    $default  reduce using rule 129 (return_statement)
+
+
+State 184
+
+    9 expression: expression . Comma assign_expressions
+  130 return_statement: Return_KEY expression . Semicolon
+
+    Semicolon  shift, and go to state 241
+    Comma      shift, and go to state 190
+
+
+State 185
+
+  119 labeled_statement: Case_KEY constant_expression . Colon statement
+
+    Colon  shift, and go to state 242
+
+
+State 186
+
+  128 return_statement: Break_KEY Semicolon .
+
+    $default  reduce using rule 128 (return_statement)
+
+
+State 187
+
+  122 if_else_statement: Switch_KEY Open_BRACKET . expression Close_BRACKET statement
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 243
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 188
+
+  118 labeled_statement: IDENTIFIER Colon . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 244
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 189
+
+  132 expression_statement: expression Semicolon .
+
+    $default  reduce using rule 132 (expression_statement)
+
+
+State 190
+
+    9 expression: expression Comma . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 245
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 191
+
+  134 compound_statement: OCurly_BRACKET statement_list CCurly_BRACKET .
+
+    $default  reduce using rule 134 (compound_statement)
+
+
+State 192
+
+  136 statement_list: statement_list statement .
+
+    $default  reduce using rule 136 (statement_list)
+
+
+State 193
+
+   37 declarator: IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET .
+
+    $default  reduce using rule 37 (declarator)
+
+
+State 194
+
+   26 function_definition: all_type_specifiers IDENTIFIER Open_BRACKET parameter_type_list Close_BRACKET compound_statement .
+
+    $default  reduce using rule 26 (function_definition)
+
+
+State 195
+
+   92 unary_expression: Sizeof_KEY Open_BRACKET type_name . Close_BRACKET
+
+    Close_BRACKET  shift, and go to state 246
+
+
+State 196
+
+   78 primary_expression: Open_BRACKET expression Close_BRACKET .
+
+    $default  reduce using rule 78 (primary_expression)
+
+
+State 197
+
+   57 cast_expression: Open_BRACKET type_name Close_BRACKET . cast_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    cast_expression     go to state 247
+    primary_expression  go to state 91
+    postfix_expression  go to state 92
+    unary_expression    go to state 93
+    unary_operator      go to state 94
+
+
+State 198
+
+   98 abstract_declarator: Open_BRACKET . abstract_declarator Close_BRACKET
+  103                    | Open_BRACKET . Close_BRACKET
+  104                    | Open_BRACKET . parameter_type_list Close_BRACKET
+
+    String_KEY       shift, and go to state 1
+    Short_KEY        shift, and go to state 2
+    Extern_KEY       shift, and go to state 3
+    Float_KEY        shift, and go to state 4
+    Unsigned_KEY     shift, and go to state 5
+    Void_KEY         shift, and go to state 6
+    Long_KEY         shift, and go to state 7
+    Volatile_KEY     shift, and go to state 8
+    Const_KEY        shift, and go to state 9
+    Char_KEY         shift, and go to state 10
+    Auto_KEY         shift, and go to state 11
+    Double_KEY       shift, and go to state 12
+    Int_KEY          shift, and go to state 13
+    Typedef_KEY      shift, and go to state 14
+    Static_KEY       shift, and go to state 15
+    Enum_KEY         shift, and go to state 16
+    Register_KEY     shift, and go to state 17
+    Signed_KEY       shift, and go to state 18
+    Struct_KEY       shift, and go to state 19
+    Open_BRACKET     shift, and go to state 198
+    Close_BRACKET    shift, and go to state 248
+    OSquare_BRACKET  shift, and go to state 199
+
+    all_type_specifiers    go to state 45
+    abstract_declarator    go to state 249
+    parameter_type_list    go to state 250
+    parameter_list         go to state 47
+    parameter_declaration  go to state 48
+    storage_specifiers     go to state 27
+    type_specifier         go to state 28
+    type_qualifier         go to state 29
+
+
+State 199
+
+   99 abstract_declarator: OSquare_BRACKET . CSquare_BRACKET
+  100                    | OSquare_BRACKET . constant_expression CSquare_BRACKET
+
+    Sizeof_KEY       shift, and go to state 65
+    Plus_MATH        shift, and go to state 66
+    Subtract_MATH    shift, and go to state 67
+    Multiply_MATH    shift, and go to state 68
+    Increment_MATH   shift, and go to state 69
+    Decrement_MATH   shift, and go to state 70
+    And_BIT          shift, and go to state 71
+    Tilde_BIT        shift, and go to state 72
+    Not_BIT          shift, and go to state 73
+    Open_BRACKET     shift, and go to state 74
+    CSquare_BRACKET  shift, and go to state 251
+    IDENTIFIER       shift, and go to state 76
+    string_literal   shift, and go to state 77
+    NUMBER           shift, and go to state 78
+
+    constant_expression        go to state 252
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 200
+
+   94 type_name: specifier_qualifier_list abstract_declarator .
+  101 abstract_declarator: abstract_declarator . OSquare_BRACKET CSquare_BRACKET
+  102                    | abstract_declarator . OSquare_BRACKET constant_expression CSquare_BRACKET
+
+    OSquare_BRACKET  shift, and go to state 253
+
+    $default  reduce using rule 94 (type_name)
+
+
+State 201
+
+   96 specifier_qualifier_list: type_qualifier specifier_qualifier_list .
+
+    $default  reduce using rule 96 (specifier_qualifier_list)
+
+
+State 202
+
+   47 shift_expression: shift_expression LShift_BIT additive_expression .
+   50 additive_expression: additive_expression . Plus_MATH multiplicative_expression
+   51                    | additive_expression . Subtract_MATH multiplicative_expression
+
+    Plus_MATH      shift, and go to state 144
+    Subtract_MATH  shift, and go to state 145
+
+    $default  reduce using rule 47 (shift_expression)
+
+
+State 203
+
+   48 shift_expression: shift_expression RShift_BIT additive_expression .
+   50 additive_expression: additive_expression . Plus_MATH multiplicative_expression
+   51                    | additive_expression . Subtract_MATH multiplicative_expression
+
+    Plus_MATH      shift, and go to state 144
+    Subtract_MATH  shift, and go to state 145
+
+    $default  reduce using rule 48 (shift_expression)
+
+
+State 204
+
+   50 additive_expression: additive_expression Plus_MATH multiplicative_expression .
+   53 multiplicative_expression: multiplicative_expression . Multiply_MATH cast_expression
+   54                          | multiplicative_expression . Divide_MATH cast_expression
+   55                          | multiplicative_expression . Percentage_MATH cast_expression
+
+    Multiply_MATH    shift, and go to state 146
+    Divide_MATH      shift, and go to state 147
+    Percentage_MATH  shift, and go to state 148
+
+    $default  reduce using rule 50 (additive_expression)
+
+
+State 205
+
+   51 additive_expression: additive_expression Subtract_MATH multiplicative_expression .
+   53 multiplicative_expression: multiplicative_expression . Multiply_MATH cast_expression
+   54                          | multiplicative_expression . Divide_MATH cast_expression
+   55                          | multiplicative_expression . Percentage_MATH cast_expression
+
+    Multiply_MATH    shift, and go to state 146
+    Divide_MATH      shift, and go to state 147
+    Percentage_MATH  shift, and go to state 148
+
+    $default  reduce using rule 51 (additive_expression)
+
+
+State 206
+
+   53 multiplicative_expression: multiplicative_expression Multiply_MATH cast_expression .
+
+    $default  reduce using rule 53 (multiplicative_expression)
+
+
+State 207
+
+   54 multiplicative_expression: multiplicative_expression Divide_MATH cast_expression .
+
+    $default  reduce using rule 54 (multiplicative_expression)
+
+
+State 208
+
+   55 multiplicative_expression: multiplicative_expression Percentage_MATH cast_expression .
+
+    $default  reduce using rule 55 (multiplicative_expression)
+
+
+State 209
+
+   47 shift_expression: shift_expression . LShift_BIT additive_expression
+   48                 | shift_expression . RShift_BIT additive_expression
+   59 relational_expression: relational_expression Less_COMP shift_expression .
+
+    LShift_BIT  shift, and go to state 142
+    RShift_BIT  shift, and go to state 143
+
+    $default  reduce using rule 59 (relational_expression)
+
+
+State 210
+
+   47 shift_expression: shift_expression . LShift_BIT additive_expression
+   48                 | shift_expression . RShift_BIT additive_expression
+   60 relational_expression: relational_expression Greater_COMP shift_expression .
+
+    LShift_BIT  shift, and go to state 142
+    RShift_BIT  shift, and go to state 143
+
+    $default  reduce using rule 60 (relational_expression)
+
+
+State 211
+
+   47 shift_expression: shift_expression . LShift_BIT additive_expression
+   48                 | shift_expression . RShift_BIT additive_expression
+   62 relational_expression: relational_expression GEqual_COMP shift_expression .
+
+    LShift_BIT  shift, and go to state 142
+    RShift_BIT  shift, and go to state 143
+
+    $default  reduce using rule 62 (relational_expression)
+
+
+State 212
+
+   47 shift_expression: shift_expression . LShift_BIT additive_expression
+   48                 | shift_expression . RShift_BIT additive_expression
+   61 relational_expression: relational_expression LEqual_COMP shift_expression .
+
+    LShift_BIT  shift, and go to state 142
+    RShift_BIT  shift, and go to state 143
+
+    $default  reduce using rule 61 (relational_expression)
+
+
+State 213
+
+   59 relational_expression: relational_expression . Less_COMP shift_expression
+   60                      | relational_expression . Greater_COMP shift_expression
+   61                      | relational_expression . LEqual_COMP shift_expression
+   62                      | relational_expression . GEqual_COMP shift_expression
+   64 equality_expression: equality_expression Equal_COMP relational_expression .
+
+    Less_COMP     shift, and go to state 149
+    Greater_COMP  shift, and go to state 150
+    GEqual_COMP   shift, and go to state 151
+    LEqual_COMP   shift, and go to state 152
+
+    $default  reduce using rule 64 (equality_expression)
+
+
+State 214
+
+   59 relational_expression: relational_expression . Less_COMP shift_expression
+   60                      | relational_expression . Greater_COMP shift_expression
+   61                      | relational_expression . LEqual_COMP shift_expression
+   62                      | relational_expression . GEqual_COMP shift_expression
+   65 equality_expression: equality_expression NEqual_COMP relational_expression .
+
+    Less_COMP     shift, and go to state 149
+    Greater_COMP  shift, and go to state 150
+    GEqual_COMP   shift, and go to state 151
+    LEqual_COMP   shift, and go to state 152
+
+    $default  reduce using rule 65 (equality_expression)
+
+
+State 215
+
+   64 equality_expression: equality_expression . Equal_COMP relational_expression
+   65                    | equality_expression . NEqual_COMP relational_expression
+   67 and_expression: and_expression And_BIT equality_expression .
+
+    Equal_COMP   shift, and go to state 153
+    NEqual_COMP  shift, and go to state 154
+
+    $default  reduce using rule 67 (and_expression)
+
+
+State 216
+
+   67 and_expression: and_expression . And_BIT equality_expression
+   69 exclusive_or_expression: exclusive_or_expression Xor_BIT and_expression .
+
+    And_BIT  shift, and go to state 155
+
+    $default  reduce using rule 69 (exclusive_or_expression)
+
+
+State 217
+
+   69 exclusive_or_expression: exclusive_or_expression . Xor_BIT and_expression
+   71 inclusive_or_expression: inclusive_or_expression Or_BIT exclusive_or_expression .
+
+    Xor_BIT  shift, and go to state 156
+
+    $default  reduce using rule 71 (inclusive_or_expression)
+
+
+State 218
+
+   71 inclusive_or_expression: inclusive_or_expression . Or_BIT exclusive_or_expression
+   73 logical_and_expression: logical_and_expression AndAnd_BIT inclusive_or_expression .
+
+    Or_BIT  shift, and go to state 157
+
+    $default  reduce using rule 73 (logical_and_expression)
+
+
+State 219
+
+   73 logical_and_expression: logical_and_expression . AndAnd_BIT inclusive_or_expression
+   75 conditional_logical_or: conditional_logical_or OrOr_BIT logical_and_expression .
+
+    AndAnd_BIT  shift, and go to state 158
+
+    $default  reduce using rule 75 (conditional_logical_or)
+
+
+State 220
+
+    9 expression: expression . Comma assign_expressions
+   23 constant_expression: conditional_logical_or Question_BIT expression . Colon constant_expression
+
+    Colon  shift, and go to state 254
+    Comma  shift, and go to state 190
+
+
+State 221
+
+   82 postfix_expression: primary_expression Open_BRACKET Close_BRACKET .
+
+    $default  reduce using rule 82 (postfix_expression)
+
+
+State 222
+
+   24 argument_expression_list: assign_expressions .
+
+    $default  reduce using rule 24 (argument_expression_list)
+
+
+State 223
+
+   25 argument_expression_list: argument_expression_list . Comma assign_expressions
+   83 postfix_expression: primary_expression Open_BRACKET argument_expression_list . Close_BRACKET
+
+    Close_BRACKET  shift, and go to state 255
+    Comma          shift, and go to state 256
+
+
+State 224
+
+   84 postfix_expression: primary_expression Dot_Ref IDENTIFIER .
+
+    $default  reduce using rule 84 (postfix_expression)
+
+
+State 225
+
+    9 expression: expression . Comma assign_expressions
+   81 postfix_expression: postfix_expression OSquare_BRACKET expression . CSquare_BRACKET
+
+    CSquare_BRACKET  shift, and go to state 257
+    Comma            shift, and go to state 190
+
+
+State 226
+
+   12 assign_expressions: unary_expression Add_CURRENT assign_expressions .
+
+    $default  reduce using rule 12 (assign_expressions)
+
+
+State 227
+
+   13 assign_expressions: unary_expression Sub_CURRENT assign_expressions .
+
+    $default  reduce using rule 13 (assign_expressions)
+
+
+State 228
+
+   14 assign_expressions: unary_expression Mul_CURRENT assign_expressions .
+
+    $default  reduce using rule 14 (assign_expressions)
+
+
+State 229
+
+   15 assign_expressions: unary_expression Div_CURRENT assign_expressions .
+
+    $default  reduce using rule 15 (assign_expressions)
+
+
+State 230
+
+   16 assign_expressions: unary_expression Mod_CURRENT assign_expressions .
+
+    $default  reduce using rule 16 (assign_expressions)
+
+
+State 231
+
+   17 assign_expressions: unary_expression And_CURRENT assign_expressions .
+
+    $default  reduce using rule 17 (assign_expressions)
+
+
+State 232
+
+   18 assign_expressions: unary_expression Xor_CURRENT assign_expressions .
+
+    $default  reduce using rule 18 (assign_expressions)
+
+
+State 233
+
+   19 assign_expressions: unary_expression Or_CURRENT assign_expressions .
+
+    $default  reduce using rule 19 (assign_expressions)
+
+
+State 234
+
+   20 assign_expressions: unary_expression LShift_CURRENT assign_expressions .
+
+    $default  reduce using rule 20 (assign_expressions)
+
+
+State 235
+
+   21 assign_expressions: unary_expression RShift_CURRENT assign_expressions .
+
+    $default  reduce using rule 21 (assign_expressions)
+
+
+State 236
+
+   11 assign_expressions: unary_expression Equal assign_expressions .
+
+    $default  reduce using rule 11 (assign_expressions)
+
+
+State 237
+
+    9 expression: expression . Comma assign_expressions
+  120 if_else_statement: If_KEY Open_BRACKET expression . Close_BRACKET statement
+  121                  | If_KEY Open_BRACKET expression . Close_BRACKET statement Else_KEY statement
+
+    Close_BRACKET  shift, and go to state 258
+    Comma          shift, and go to state 190
+
+
+State 238
+
+    9 expression: expression . Comma assign_expressions
+  125 for_while_statement: While_KEY Open_BRACKET expression . Close_BRACKET statement
+
+    Close_BRACKET  shift, and go to state 259
+    Comma          shift, and go to state 190
+
+
+State 239
+
+    9 expression: expression . Comma assign_expressions
+  123 for_while_statement: For_KEY Open_BRACKET expression . Semicolon expression Semicolon Close_BRACKET statement
+  124                    | For_KEY Open_BRACKET expression . Semicolon expression Semicolon expression Close_BRACKET statement
+
+    Semicolon  shift, and go to state 260
+    Comma      shift, and go to state 190
+
+
+State 240
+
+  126 for_while_statement: Do_KEY statement While_KEY . Open_BRACKET expression Close_BRACKET Semicolon
+
+    Open_BRACKET  shift, and go to state 261
+
+
+State 241
+
+  130 return_statement: Return_KEY expression Semicolon .
+
+    $default  reduce using rule 130 (return_statement)
+
+
+State 242
+
+  119 labeled_statement: Case_KEY constant_expression Colon . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 262
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 243
+
+    9 expression: expression . Comma assign_expressions
+  122 if_else_statement: Switch_KEY Open_BRACKET expression . Close_BRACKET statement
+
+    Close_BRACKET  shift, and go to state 263
+    Comma          shift, and go to state 190
+
+
+State 244
+
+  118 labeled_statement: IDENTIFIER Colon statement .
+
+    $default  reduce using rule 118 (labeled_statement)
+
+
+State 245
+
+    9 expression: expression Comma assign_expressions .
+
+    $default  reduce using rule 9 (expression)
+
+
+State 246
+
+   92 unary_expression: Sizeof_KEY Open_BRACKET type_name Close_BRACKET .
+
+    $default  reduce using rule 92 (unary_expression)
+
+
+State 247
+
+   57 cast_expression: Open_BRACKET type_name Close_BRACKET cast_expression .
+
+    $default  reduce using rule 57 (cast_expression)
+
+
+State 248
+
+  103 abstract_declarator: Open_BRACKET Close_BRACKET .
+
+    $default  reduce using rule 103 (abstract_declarator)
+
+
+State 249
+
+   98 abstract_declarator: Open_BRACKET abstract_declarator . Close_BRACKET
+  101                    | abstract_declarator . OSquare_BRACKET CSquare_BRACKET
+  102                    | abstract_declarator . OSquare_BRACKET constant_expression CSquare_BRACKET
+
+    Close_BRACKET    shift, and go to state 264
+    OSquare_BRACKET  shift, and go to state 253
+
+
+State 250
+
+  104 abstract_declarator: Open_BRACKET parameter_type_list . Close_BRACKET
+
+    Close_BRACKET  shift, and go to state 265
+
+
+State 251
+
+   99 abstract_declarator: OSquare_BRACKET CSquare_BRACKET .
+
+    $default  reduce using rule 99 (abstract_declarator)
+
+
+State 252
+
+  100 abstract_declarator: OSquare_BRACKET constant_expression . CSquare_BRACKET
+
+    CSquare_BRACKET  shift, and go to state 266
+
+
+State 253
+
+  101 abstract_declarator: abstract_declarator OSquare_BRACKET . CSquare_BRACKET
+  102                    | abstract_declarator OSquare_BRACKET . constant_expression CSquare_BRACKET
+
+    Sizeof_KEY       shift, and go to state 65
+    Plus_MATH        shift, and go to state 66
+    Subtract_MATH    shift, and go to state 67
+    Multiply_MATH    shift, and go to state 68
+    Increment_MATH   shift, and go to state 69
+    Decrement_MATH   shift, and go to state 70
+    And_BIT          shift, and go to state 71
+    Tilde_BIT        shift, and go to state 72
+    Not_BIT          shift, and go to state 73
+    Open_BRACKET     shift, and go to state 74
+    CSquare_BRACKET  shift, and go to state 267
+    IDENTIFIER       shift, and go to state 76
+    string_literal   shift, and go to state 77
+    NUMBER           shift, and go to state 78
+
+    constant_expression        go to state 268
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 254
+
+   23 constant_expression: conditional_logical_or Question_BIT expression Colon . constant_expression
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    constant_expression        go to state 269
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 93
+    unary_operator             go to state 94
+
+
+State 255
+
+   83 postfix_expression: primary_expression Open_BRACKET argument_expression_list Close_BRACKET .
+
+    $default  reduce using rule 83 (postfix_expression)
+
+
+State 256
+
+   25 argument_expression_list: argument_expression_list Comma . assign_expressions
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    assign_expressions         go to state 270
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 257
+
+   81 postfix_expression: postfix_expression OSquare_BRACKET expression CSquare_BRACKET .
+
+    $default  reduce using rule 81 (postfix_expression)
+
+
+State 258
+
+  120 if_else_statement: If_KEY Open_BRACKET expression Close_BRACKET . statement
+  121                  | If_KEY Open_BRACKET expression Close_BRACKET . statement Else_KEY statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 271
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 259
+
+  125 for_while_statement: While_KEY Open_BRACKET expression Close_BRACKET . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 272
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 260
+
+  123 for_while_statement: For_KEY Open_BRACKET expression Semicolon . expression Semicolon Close_BRACKET statement
+  124                    | For_KEY Open_BRACKET expression Semicolon . expression Semicolon expression Close_BRACKET statement
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 273
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 261
+
+  126 for_while_statement: Do_KEY statement While_KEY Open_BRACKET . expression Close_BRACKET Semicolon
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 274
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 262
+
+  119 labeled_statement: Case_KEY constant_expression Colon statement .
+
+    $default  reduce using rule 119 (labeled_statement)
+
+
+State 263
+
+  122 if_else_statement: Switch_KEY Open_BRACKET expression Close_BRACKET . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 275
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 264
+
+   98 abstract_declarator: Open_BRACKET abstract_declarator Close_BRACKET .
+
+    $default  reduce using rule 98 (abstract_declarator)
+
+
+State 265
+
+  104 abstract_declarator: Open_BRACKET parameter_type_list Close_BRACKET .
+
+    $default  reduce using rule 104 (abstract_declarator)
+
+
+State 266
+
+  100 abstract_declarator: OSquare_BRACKET constant_expression CSquare_BRACKET .
+
+    $default  reduce using rule 100 (abstract_declarator)
+
+
+State 267
+
+  101 abstract_declarator: abstract_declarator OSquare_BRACKET CSquare_BRACKET .
+
+    $default  reduce using rule 101 (abstract_declarator)
+
+
+State 268
+
+  102 abstract_declarator: abstract_declarator OSquare_BRACKET constant_expression . CSquare_BRACKET
+
+    CSquare_BRACKET  shift, and go to state 276
+
+
+State 269
+
+   23 constant_expression: conditional_logical_or Question_BIT expression Colon constant_expression .
+
+    $default  reduce using rule 23 (constant_expression)
+
+
+State 270
+
+   25 argument_expression_list: argument_expression_list Comma assign_expressions .
+
+    $default  reduce using rule 25 (argument_expression_list)
+
+
+State 271
+
+  120 if_else_statement: If_KEY Open_BRACKET expression Close_BRACKET statement .
+  121                  | If_KEY Open_BRACKET expression Close_BRACKET statement . Else_KEY statement
+
+    Else_KEY  shift, and go to state 277
+
+    Else_KEY  [reduce using rule 120 (if_else_statement)]
+    $default  reduce using rule 120 (if_else_statement)
+
+
+State 272
+
+  125 for_while_statement: While_KEY Open_BRACKET expression Close_BRACKET statement .
+
+    $default  reduce using rule 125 (for_while_statement)
+
+
+State 273
+
+    9 expression: expression . Comma assign_expressions
+  123 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression . Semicolon Close_BRACKET statement
+  124                    | For_KEY Open_BRACKET expression Semicolon expression . Semicolon expression Close_BRACKET statement
+
+    Semicolon  shift, and go to state 278
+    Comma      shift, and go to state 190
+
+
+State 274
+
+    9 expression: expression . Comma assign_expressions
+  126 for_while_statement: Do_KEY statement While_KEY Open_BRACKET expression . Close_BRACKET Semicolon
+
+    Close_BRACKET  shift, and go to state 279
+    Comma          shift, and go to state 190
+
+
+State 275
+
+  122 if_else_statement: Switch_KEY Open_BRACKET expression Close_BRACKET statement .
+
+    $default  reduce using rule 122 (if_else_statement)
+
+
+State 276
+
+  102 abstract_declarator: abstract_declarator OSquare_BRACKET constant_expression CSquare_BRACKET .
+
+    $default  reduce using rule 102 (abstract_declarator)
+
+
+State 277
+
+  121 if_else_statement: If_KEY Open_BRACKET expression Close_BRACKET statement Else_KEY . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 280
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 278
+
+  123 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression Semicolon . Close_BRACKET statement
+  124                    | For_KEY Open_BRACKET expression Semicolon expression Semicolon . expression Close_BRACKET statement
+
+    Sizeof_KEY      shift, and go to state 65
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    Close_BRACKET   shift, and go to state 281
+    IDENTIFIER      shift, and go to state 76
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 282
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    unary_operator             go to state 94
+
+
+State 279
+
+  126 for_while_statement: Do_KEY statement While_KEY Open_BRACKET expression Close_BRACKET . Semicolon
+
+    Semicolon  shift, and go to state 283
+
+
+State 280
+
+  121 if_else_statement: If_KEY Open_BRACKET expression Close_BRACKET statement Else_KEY statement .
+
+    $default  reduce using rule 121 (if_else_statement)
+
+
+State 281
+
+  123 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression Semicolon Close_BRACKET . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 284
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 282
+
+    9 expression: expression . Comma assign_expressions
+  124 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression Semicolon expression . Close_BRACKET statement
+
+    Close_BRACKET  shift, and go to state 285
+    Comma          shift, and go to state 190
+
+
+State 283
+
+  126 for_while_statement: Do_KEY statement While_KEY Open_BRACKET expression Close_BRACKET Semicolon .
+
+    $default  reduce using rule 126 (for_while_statement)
+
+
+State 284
+
+  123 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression Semicolon Close_BRACKET statement .
+
+    $default  reduce using rule 123 (for_while_statement)
+
+
+State 285
+
+  124 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression Semicolon expression Close_BRACKET . statement
+
+    Continue_KEY    shift, and go to state 99
+    String_KEY      shift, and go to state 1
+    Short_KEY       shift, and go to state 2
+    If_KEY          shift, and go to state 100
+    Extern_KEY      shift, and go to state 3
+    Float_KEY       shift, and go to state 4
+    Unsigned_KEY    shift, and go to state 5
+    Void_KEY        shift, and go to state 6
+    Long_KEY        shift, and go to state 7
+    Volatile_KEY    shift, and go to state 8
+    While_KEY       shift, and go to state 101
+    Const_KEY       shift, and go to state 9
+    Char_KEY        shift, and go to state 10
+    For_KEY         shift, and go to state 102
+    Auto_KEY        shift, and go to state 11
+    Do_KEY          shift, and go to state 103
+    Sizeof_KEY      shift, and go to state 65
+    Double_KEY      shift, and go to state 12
+    Int_KEY         shift, and go to state 13
+    Typedef_KEY     shift, and go to state 14
+    Return_KEY      shift, and go to state 104
+    Static_KEY      shift, and go to state 15
+    Enum_KEY        shift, and go to state 16
+    Case_KEY        shift, and go to state 105
+    Register_KEY    shift, and go to state 17
+    Break_KEY       shift, and go to state 106
+    Signed_KEY      shift, and go to state 18
+    Switch_KEY      shift, and go to state 107
+    Struct_KEY      shift, and go to state 19
+    Plus_MATH       shift, and go to state 66
+    Subtract_MATH   shift, and go to state 67
+    Multiply_MATH   shift, and go to state 68
+    Increment_MATH  shift, and go to state 69
+    Decrement_MATH  shift, and go to state 70
+    And_BIT         shift, and go to state 71
+    Tilde_BIT       shift, and go to state 72
+    Not_BIT         shift, and go to state 73
+    Open_BRACKET    shift, and go to state 74
+    OCurly_BRACKET  shift, and go to state 56
+    Semicolon       shift, and go to state 109
+    IDENTIFIER      shift, and go to state 110
+    string_literal  shift, and go to state 77
+    NUMBER          shift, and go to state 78
+
+    expression                 go to state 111
+    assign_expressions         go to state 112
+    constant_expression        go to state 96
+    all_type_specifiers        go to state 113
+    declaration                go to state 114
+    shift_expression           go to state 80
+    additive_expression        go to state 81
+    multiplicative_expression  go to state 82
+    cast_expression            go to state 83
+    relational_expression      go to state 84
+    equality_expression        go to state 85
+    and_expression             go to state 86
+    exclusive_or_expression    go to state 87
+    inclusive_or_expression    go to state 88
+    logical_and_expression     go to state 89
+    conditional_logical_or     go to state 90
+    primary_expression         go to state 91
+    postfix_expression         go to state 92
+    unary_expression           go to state 97
+    statement                  go to state 286
+    labeled_statement          go to state 116
+    if_else_statement          go to state 117
+    for_while_statement        go to state 118
+    return_statement           go to state 119
+    expression_statement       go to state 120
+    compound_statement         go to state 121
+    storage_specifiers         go to state 27
+    type_specifier             go to state 28
+    unary_operator             go to state 94
+    type_qualifier             go to state 29
+
+
+State 286
+
+  124 for_while_statement: For_KEY Open_BRACKET expression Semicolon expression Semicolon expression Close_BRACKET statement .
+
+    $default  reduce using rule 124 (for_while_statement)

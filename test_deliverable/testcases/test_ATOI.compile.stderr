@@ -1,0 +1,13 @@
+This is a global declaration. Printing same stuff as normal declaration.
+declarator: Function variable: atoiWith parameters: 
+Parameter Type = atoi id="Variable: my_char"  
+Equal to: 0
+
+Function id="f"  | Type: Int | Parameters: 
+Statements: 
+declarator: Variable: in_char
+Equal to: "57"
+Returning Function call:
+ID: atoiin_char 
+
+
